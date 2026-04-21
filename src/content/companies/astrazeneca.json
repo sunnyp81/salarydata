@@ -1,0 +1,44 @@
+{
+  "slug": "astrazeneca",
+  "name": "AstraZeneca",
+  "sector": "Pharmaceuticals",
+  "ftseIndex": "FTSE 100",
+  "employeeCount": 89000,
+  "headquarters": "Cambridge",
+  "averageSalary": 62000,
+  "salaryByRole": [
+    {
+      "role": "Software Engineer",
+      "median": 58000,
+      "range": [
+        40000,
+        85000
+      ]
+    },
+    {
+      "role": "Data Analyst",
+      "median": 45000,
+      "range": [
+        32000,
+        62000
+      ]
+    },
+    {
+      "role": "Pharmacist",
+      "median": 55000,
+      "range": [
+        42000,
+        72000
+      ]
+    },
+    {
+      "role": "Project Manager",
+      "median": 68000,
+      "range": [
+        48000,
+        95000
+      ]
+    }
+  ],
+  "lastUpdated": "2026-04-21"
+}

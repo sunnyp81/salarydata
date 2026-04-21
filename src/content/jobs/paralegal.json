@@ -1,0 +1,31 @@
+{
+  "slug": "paralegal",
+  "title": "Paralegal",
+  "alternativeTitles": [
+    "Legal Assistant",
+    "Legal Executive",
+    "CILEX Paralegal"
+  ],
+  "category": "Legal",
+  "sectorCode": "4122",
+  "nationalMedianSalary": 28000,
+  "nationalLowerQuartile": 23000,
+  "nationalUpperQuartile": 35000,
+  "nationalMinimum": 20000,
+  "nationalMaximum": 48000,
+  "entryLevelSalary": 22000,
+  "seniorLevelSalary": 42000,
+  "requiredSkills": [
+    "Legal research",
+    "Document drafting",
+    "Case management",
+    "Client liaison"
+  ],
+  "relatedJobs": [
+    "solicitor",
+    "legal-secretary"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

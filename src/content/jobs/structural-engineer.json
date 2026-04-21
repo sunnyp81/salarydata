@@ -1,0 +1,32 @@
+{
+  "slug": "structural-engineer",
+  "title": "Structural Engineer",
+  "alternativeTitles": [
+    "Civil Engineer",
+    "Chartered Structural Engineer",
+    "Design Engineer"
+  ],
+  "category": "Construction",
+  "sectorCode": "2121",
+  "nationalMedianSalary": 48000,
+  "nationalLowerQuartile": 36000,
+  "nationalUpperQuartile": 65000,
+  "nationalMinimum": 28000,
+  "nationalMaximum": 95000,
+  "entryLevelSalary": 30000,
+  "seniorLevelSalary": 82000,
+  "requiredSkills": [
+    "Tekla",
+    "Revit",
+    "Eurocodes",
+    "IStructE chartership",
+    "Structural analysis"
+  ],
+  "relatedJobs": [
+    "architect",
+    "site-manager"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

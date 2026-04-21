@@ -1,0 +1,17 @@
+{
+  "slug": "edinburgh",
+  "name": "Edinburgh",
+  "region": "Scotland",
+  "population": 540000,
+  "locationMultiplier": 1.08,
+  "costOfLivingIndex": 92,
+  "averageRent1Bed": 1250,
+  "unemploymentRate": 3.8,
+  "majorEmployers": [
+    "RBS",
+    "Standard Life Aberdeen",
+    "Lloyds",
+    "Scottish Government",
+    "Amazon"
+  ]
+}

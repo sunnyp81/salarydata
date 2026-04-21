@@ -1,0 +1,17 @@
+{
+  "slug": "brighton",
+  "name": "Brighton",
+  "region": "South East",
+  "population": 275000,
+  "locationMultiplier": 1.05,
+  "costOfLivingIndex": 105,
+  "averageRent1Bed": 1475,
+  "unemploymentRate": 4.1,
+  "majorEmployers": [
+    "American Express",
+    "Brandwatch",
+    "Legal & General",
+    "Gatwick Airport",
+    "NHS Sussex"
+  ]
+}

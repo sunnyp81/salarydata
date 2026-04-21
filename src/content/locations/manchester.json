@@ -1,0 +1,17 @@
+{
+  "slug": "manchester",
+  "name": "Manchester",
+  "region": "North West",
+  "population": 2900000,
+  "locationMultiplier": 1.02,
+  "costOfLivingIndex": 88,
+  "averageRent1Bed": 1050,
+  "unemploymentRate": 4.8,
+  "majorEmployers": [
+    "BBC",
+    "Kellogg's",
+    "Co-op",
+    "AutoTrader",
+    "Bupa"
+  ]
+}

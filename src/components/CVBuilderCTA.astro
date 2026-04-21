@@ -1,0 +1,31 @@
+---
+import { topCvLink } from '../lib/affiliateLinks';
+export interface Props {
+  jobTitle?: string;
+  campaign?: string;
+}
+const { jobTitle, campaign } = Astro.props;
+const ctx = jobTitle ? ` as a ${jobTitle}` : '';
+const link = topCvLink(campaign);
+---
+<div class="cta-cv">
+  <div>
+    <h3>Earn more{ctx}</h3>
+    <p>Get a free, expert CV review from TopCV — the UK's largest CV writing service. Applicants with a professionally written CV receive 2× more interview invitations.</p>
+  </div>
+  <a href={link} class="btn" rel="sponsored nofollow" target="_blank">Get free CV review →</a>
+</div>
+<style>
+  .cta-cv {
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1.5rem;
+    background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px;
+    padding: 1.25rem 1.5rem; margin: 2rem 0;
+  }
+  .cta-cv h3 { margin: 0 0 .35rem; font-size: 1.1rem; }
+  .cta-cv p { margin: 0; font-size: .92rem; color: #475569; }
+  .cta-cv .btn { background: #c2410c; }
+  .cta-cv .btn:hover { background: #9a3412; }
+  @media (max-width: 640px) {
+    .cta-cv { grid-template-columns: 1fr; }
+  }
+</style>

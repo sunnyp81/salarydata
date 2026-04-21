@@ -1,0 +1,17 @@
+{
+  "slug": "bristol",
+  "name": "Bristol",
+  "region": "South West",
+  "population": 700000,
+  "locationMultiplier": 1.06,
+  "costOfLivingIndex": 94,
+  "averageRent1Bed": 1350,
+  "unemploymentRate": 3.9,
+  "majorEmployers": [
+    "Airbus",
+    "Lloyds Bank",
+    "Hargreaves Lansdown",
+    "Rolls-Royce",
+    "BBC"
+  ]
+}

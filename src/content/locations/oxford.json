@@ -1,0 +1,17 @@
+{
+  "slug": "oxford",
+  "name": "Oxford",
+  "region": "South East",
+  "population": 165000,
+  "locationMultiplier": 1.13,
+  "costOfLivingIndex": 118,
+  "averageRent1Bed": 1575,
+  "unemploymentRate": 2.8,
+  "majorEmployers": [
+    "University of Oxford",
+    "Oxford Instruments",
+    "BMW Mini",
+    "Unipart",
+    "Sophos"
+  ]
+}

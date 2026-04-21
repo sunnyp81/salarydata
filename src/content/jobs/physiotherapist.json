@@ -1,0 +1,31 @@
+{
+  "slug": "physiotherapist",
+  "title": "Physiotherapist",
+  "alternativeTitles": [
+    "Chartered Physiotherapist",
+    "MSK Physiotherapist",
+    "Physio"
+  ],
+  "category": "Healthcare",
+  "sectorCode": "2221",
+  "nationalMedianSalary": 38000,
+  "nationalLowerQuartile": 30000,
+  "nationalUpperQuartile": 48000,
+  "nationalMinimum": 27000,
+  "nationalMaximum": 62000,
+  "entryLevelSalary": 28000,
+  "seniorLevelSalary": 55000,
+  "requiredSkills": [
+    "Musculoskeletal assessment",
+    "Rehabilitation",
+    "HCPC registration",
+    "Manual therapy"
+  ],
+  "relatedJobs": [
+    "nurse",
+    "radiographer"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

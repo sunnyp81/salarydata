@@ -1,0 +1,33 @@
+{
+  "slug": "seo-manager",
+  "title": "SEO Manager",
+  "alternativeTitles": [
+    "SEO Consultant",
+    "Technical SEO Lead",
+    "Organic Growth Manager"
+  ],
+  "category": "Marketing",
+  "sectorCode": "2472",
+  "nationalMedianSalary": 45000,
+  "nationalLowerQuartile": 34000,
+  "nationalUpperQuartile": 60000,
+  "nationalMinimum": 26000,
+  "nationalMaximum": 85000,
+  "entryLevelSalary": 28000,
+  "seniorLevelSalary": 75000,
+  "requiredSkills": [
+    "Ahrefs",
+    "Google Search Console",
+    "Technical SEO",
+    "Content strategy",
+    "Link building"
+  ],
+  "relatedJobs": [
+    "content-manager",
+    "paid-media-manager",
+    "marketing-manager"
+  ],
+  "growthOutlook": "high",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

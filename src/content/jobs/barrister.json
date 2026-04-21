@@ -1,0 +1,30 @@
+{
+  "slug": "barrister",
+  "title": "Barrister",
+  "alternativeTitles": [
+    "Junior Barrister",
+    "Queens Counsel",
+    "QC"
+  ],
+  "category": "Legal",
+  "sectorCode": "2412",
+  "nationalMedianSalary": 75000,
+  "nationalLowerQuartile": 45000,
+  "nationalUpperQuartile": 135000,
+  "nationalMinimum": 28000,
+  "nationalMaximum": 400000,
+  "entryLevelSalary": 35000,
+  "seniorLevelSalary": 250000,
+  "requiredSkills": [
+    "BSB qualification",
+    "Advocacy",
+    "Case preparation",
+    "Legal argument"
+  ],
+  "relatedJobs": [
+    "solicitor"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

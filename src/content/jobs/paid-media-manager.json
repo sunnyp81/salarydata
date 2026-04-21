@@ -1,0 +1,32 @@
+{
+  "slug": "paid-media-manager",
+  "title": "Paid Media Manager",
+  "alternativeTitles": [
+    "PPC Manager",
+    "Performance Marketing Manager",
+    "Digital Media Buyer"
+  ],
+  "category": "Marketing",
+  "sectorCode": "2472",
+  "nationalMedianSalary": 45000,
+  "nationalLowerQuartile": 34000,
+  "nationalUpperQuartile": 58000,
+  "nationalMinimum": 26000,
+  "nationalMaximum": 85000,
+  "entryLevelSalary": 28000,
+  "seniorLevelSalary": 72000,
+  "requiredSkills": [
+    "Google Ads",
+    "Meta Ads",
+    "LinkedIn Ads",
+    "GA4",
+    "Attribution"
+  ],
+  "relatedJobs": [
+    "seo-manager",
+    "marketing-manager"
+  ],
+  "growthOutlook": "high",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

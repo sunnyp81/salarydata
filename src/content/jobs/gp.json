@@ -1,0 +1,31 @@
+{
+  "slug": "gp",
+  "title": "GP",
+  "alternativeTitles": [
+    "General Practitioner",
+    "Family Doctor",
+    "Primary Care Physician"
+  ],
+  "category": "Healthcare",
+  "sectorCode": "2211",
+  "nationalMedianSalary": 105000,
+  "nationalLowerQuartile": 85000,
+  "nationalUpperQuartile": 135000,
+  "nationalMinimum": 70000,
+  "nationalMaximum": 180000,
+  "entryLevelSalary": 75000,
+  "seniorLevelSalary": 160000,
+  "requiredSkills": [
+    "GMC registration",
+    "MRCGP",
+    "Clinical diagnosis",
+    "Patient consultation"
+  ],
+  "relatedJobs": [
+    "nurse",
+    "pharmacist"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

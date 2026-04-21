@@ -1,0 +1,33 @@
+{
+  "slug": "content-manager",
+  "title": "Content Manager",
+  "alternativeTitles": [
+    "Content Marketing Manager",
+    "Content Lead",
+    "Editorial Manager"
+  ],
+  "category": "Marketing",
+  "sectorCode": "2472",
+  "nationalMedianSalary": 38000,
+  "nationalLowerQuartile": 29000,
+  "nationalUpperQuartile": 50000,
+  "nationalMinimum": 24000,
+  "nationalMaximum": 72000,
+  "entryLevelSalary": 25000,
+  "seniorLevelSalary": 62000,
+  "requiredSkills": [
+    "Content strategy",
+    "SEO",
+    "Copywriting",
+    "CMS platforms",
+    "Analytics"
+  ],
+  "relatedJobs": [
+    "seo-manager",
+    "brand-manager",
+    "marketing-manager"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

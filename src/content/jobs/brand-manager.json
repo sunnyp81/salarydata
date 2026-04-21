@@ -1,0 +1,31 @@
+{
+  "slug": "brand-manager",
+  "title": "Brand Manager",
+  "alternativeTitles": [
+    "Senior Brand Manager",
+    "Brand Director",
+    "Category Manager"
+  ],
+  "category": "Marketing",
+  "sectorCode": "1134",
+  "nationalMedianSalary": 45000,
+  "nationalLowerQuartile": 35000,
+  "nationalUpperQuartile": 60000,
+  "nationalMinimum": 28000,
+  "nationalMaximum": 95000,
+  "entryLevelSalary": 32000,
+  "seniorLevelSalary": 80000,
+  "requiredSkills": [
+    "Brand strategy",
+    "Market research",
+    "Campaign management",
+    "Creative direction"
+  ],
+  "relatedJobs": [
+    "marketing-manager",
+    "content-manager"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

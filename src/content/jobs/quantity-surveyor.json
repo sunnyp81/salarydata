@@ -1,0 +1,32 @@
+{
+  "slug": "quantity-surveyor",
+  "title": "Quantity Surveyor",
+  "alternativeTitles": [
+    "Senior QS",
+    "Commercial Manager",
+    "Cost Consultant"
+  ],
+  "category": "Construction",
+  "sectorCode": "2433",
+  "nationalMedianSalary": 52000,
+  "nationalLowerQuartile": 40000,
+  "nationalUpperQuartile": 68000,
+  "nationalMinimum": 30000,
+  "nationalMaximum": 100000,
+  "entryLevelSalary": 34000,
+  "seniorLevelSalary": 85000,
+  "requiredSkills": [
+    "RICS",
+    "NEC contracts",
+    "JCT contracts",
+    "Cost planning",
+    "Valuation"
+  ],
+  "relatedJobs": [
+    "site-manager",
+    "project-manager"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

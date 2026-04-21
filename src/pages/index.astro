@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { formatGBP } from '../lib/ukTaxCalc';
+import { buildWebsiteSchema, buildOrganizationSchema } from '../lib/schemaBuilder';
+
+const jobs = (await getCollection('jobs')).sort((a, b) => b.data.nationalMedianSalary - a.data.nationalMedianSalary);
+const locations = (await getCollection('locations')).sort((a, b) => b.data.population - a.data.population);
+const topJobs = jobs.slice(0, 8);
+const topCities = locations.slice(0, 12);
+
+const title = 'UK Salary Data — Average Pay, Take-Home Calculator & Job Market Intelligence';
+const description = 'Average UK salaries by job title and city. Free take-home pay calculator for the 2024/25 tax year. Data from ONS Annual Survey of Hours and Earnings.';
+
+const schema = [buildWebsiteSchema(), buildOrganizationSchema()];
+---
+<BaseLayout title={title} description={description} schema={schema}>
+  <section class="hero container">
+    <h1>UK salary data — by job, city and employer</h1>
+    <p class="lead">
+      Average pay, salary ranges, and take-home calculator for {jobs.length * locations.length}+ job and city combinations.
+      Source: ONS Annual Survey of Hours and Earnings. Tax year 2024/25.
+    </p>
+    <div class="cta">
+      <a href="/salary-calculator/" class="btn">Calculate take-home pay</a>
+      <a href="/salary/" class="btn btn-outline">Browse salaries</a>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2>Top UK job salaries</h2>
+    <div class="grid grid-2col">
+      {topJobs.map((j) => (
+        <a href={`/salary/${j.data.slug}/`} class="card">
+          <div>
+            <strong>{j.data.title}</strong>
+            <span class="category">{j.data.category}</span>
+          </div>
+          <div class="salary">
+            <strong>{formatGBP(j.data.nationalMedianSalary)}</strong>
+            <span>median UK salary</span>
+          </div>
+        </a>
+      ))}
+    </div>
+    <p><a href="/salary/">See all {jobs.length} job salaries →</a></p>
+  </section>
+
+  <section class="container">
+    <h2>Top UK cities for work</h2>
+    <div class="grid grid-3col">
+      {topCities.map((l) => (
+        <a href={`/location/${l.data.slug}/`} class="card city">
+          <strong>{l.data.name}</strong>
+          <span>{l.data.region} · {l.data.locationMultiplier.toFixed(2)}× UK avg</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="container methodology">
+    <h2>Our methodology</h2>
+    <p>
+      Every salary figure on SalaryData.co.uk starts from the Office for National Statistics (ONS)
+      Annual Survey of Hours and Earnings — the official UK earnings dataset covering 1% of all HMRC
+      PAYE records. We apply regional pay multipliers (based on ONS regional median gross pay) and
+      publish lower quartile, median, and upper quartile figures so you see the full earnings spread,
+      not just an average.
+    </p>
+    <p>
+      Take-home pay calculations use the current 2024/25 tax-year thresholds for England, Wales and
+      Northern Ireland, including income tax bands, Class 1 NI, student loan plans 1/2/4/5 and
+      postgraduate, and salary-sacrifice pension contributions. Scottish tax bands differ and are
+      not applied by the standard calculator.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero { padding: 3rem 1.25rem 2rem; text-align: center; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3rem); }
+  .lead { font-size: 1.1rem; color: var(--c-muted); max-width: 640px; margin: 0 auto 1.5rem; }
+  .cta { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+  .grid { display: grid; gap: .75rem; margin: 1rem 0 2rem; }
+  .grid-2col { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .grid-3col { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .card {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 1.25rem; background: #f8fafc; border: 1px solid #e2e8f0;
+    border-radius: 12px; color: var(--c-ink); gap: 1rem;
+  }
+  .card:hover { background: #fff; border-color: var(--c-accent); text-decoration: none; }
+  .card strong { display: block; font-size: 1.05rem; margin-bottom: .2rem; }
+  .card .category { color: var(--c-muted); font-size: .85rem; }
+  .card .salary { text-align: right; }
+  .card .salary strong { color: var(--c-accent); font-size: 1.1rem; }
+  .card .salary span { color: var(--c-muted); font-size: .8rem; }
+  .card.city { flex-direction: column; align-items: flex-start; }
+  .card.city span { color: var(--c-muted); font-size: .85rem; }
+  .methodology { max-width: 780px; margin: 2rem auto; }
+</style>

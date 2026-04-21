@@ -1,0 +1,17 @@
+{
+  "slug": "southampton",
+  "name": "Southampton",
+  "region": "South East",
+  "population": 270000,
+  "locationMultiplier": 1.04,
+  "costOfLivingIndex": 91,
+  "averageRent1Bed": 1150,
+  "unemploymentRate": 3.8,
+  "majorEmployers": [
+    "Carnival UK",
+    "BP",
+    "Ordnance Survey",
+    "Lloyds Register",
+    "Southampton FC"
+  ]
+}

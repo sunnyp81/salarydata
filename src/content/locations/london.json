@@ -1,0 +1,17 @@
+{
+  "slug": "london",
+  "name": "London",
+  "region": "Greater London",
+  "population": 9500000,
+  "locationMultiplier": 1.28,
+  "costOfLivingIndex": 143,
+  "averageRent1Bed": 1950,
+  "unemploymentRate": 5.2,
+  "majorEmployers": [
+    "HSBC",
+    "Barclays",
+    "Deloitte",
+    "Google UK",
+    "Unilever"
+  ]
+}

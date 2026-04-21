@@ -1,0 +1,33 @@
+{
+  "slug": "product-manager",
+  "title": "Product Manager",
+  "alternativeTitles": [
+    "Product Owner",
+    "Technical Product Manager",
+    "Senior PM"
+  ],
+  "category": "Technology",
+  "sectorCode": "2425",
+  "nationalMedianSalary": 65000,
+  "nationalLowerQuartile": 48000,
+  "nationalUpperQuartile": 88000,
+  "nationalMinimum": 35000,
+  "nationalMaximum": 140000,
+  "entryLevelSalary": 42000,
+  "seniorLevelSalary": 115000,
+  "requiredSkills": [
+    "Roadmap planning",
+    "User research",
+    "Agile",
+    "Stakeholder management",
+    "Analytics"
+  ],
+  "relatedJobs": [
+    "software-engineer",
+    "ux-designer",
+    "marketing-manager"
+  ],
+  "growthOutlook": "high",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

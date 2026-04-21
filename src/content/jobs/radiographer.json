@@ -1,0 +1,32 @@
+{
+  "slug": "radiographer",
+  "title": "Radiographer",
+  "alternativeTitles": [
+    "Diagnostic Radiographer",
+    "Therapeutic Radiographer",
+    "MRI Radiographer"
+  ],
+  "category": "Healthcare",
+  "sectorCode": "2223",
+  "nationalMedianSalary": 40000,
+  "nationalLowerQuartile": 32000,
+  "nationalUpperQuartile": 50000,
+  "nationalMinimum": 28000,
+  "nationalMaximum": 65000,
+  "entryLevelSalary": 28500,
+  "seniorLevelSalary": 58000,
+  "requiredSkills": [
+    "MRI",
+    "CT",
+    "X-ray",
+    "Patient care",
+    "HCPC registration"
+  ],
+  "relatedJobs": [
+    "nurse",
+    "physiotherapist"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

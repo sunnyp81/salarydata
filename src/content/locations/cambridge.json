@@ -1,0 +1,17 @@
+{
+  "slug": "cambridge",
+  "name": "Cambridge",
+  "region": "East of England",
+  "population": 145000,
+  "locationMultiplier": 1.15,
+  "costOfLivingIndex": 115,
+  "averageRent1Bed": 1550,
+  "unemploymentRate": 2.6,
+  "majorEmployers": [
+    "AstraZeneca",
+    "ARM",
+    "Microsoft Research",
+    "University of Cambridge",
+    "Amazon"
+  ]
+}

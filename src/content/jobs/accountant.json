@@ -1,0 +1,33 @@
+{
+  "slug": "accountant",
+  "title": "Accountant",
+  "alternativeTitles": [
+    "Chartered Accountant",
+    "Management Accountant",
+    "Financial Accountant"
+  ],
+  "category": "Finance",
+  "sectorCode": "2421",
+  "nationalMedianSalary": 42000,
+  "nationalLowerQuartile": 32000,
+  "nationalUpperQuartile": 58000,
+  "nationalMinimum": 25000,
+  "nationalMaximum": 95000,
+  "entryLevelSalary": 28000,
+  "seniorLevelSalary": 78000,
+  "requiredSkills": [
+    "ACCA",
+    "ACA",
+    "IFRS",
+    "Tax",
+    "Audit",
+    "Xero"
+  ],
+  "relatedJobs": [
+    "financial-analyst",
+    "financial-controller"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

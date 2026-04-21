@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+const title = 'Contact SalaryData.co.uk';
+const description = 'Contact us with salary data questions, corrections or partnership enquiries.';
+---
+<BaseLayout title={title} description={description}>
+  <div class="container" style="max-width:640px">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Contact', url: '/contact/' }]} />
+    <h1>Contact</h1>
+    <form action="https://api.staticforms.xyz/submit" method="POST">
+      <input type="hidden" name="accessKey" value="sf_9e906eb6c00416b9d3354749" />
+      <input type="hidden" name="redirectTo" value="https://salarydata.co.uk/contact/?sent=1" />
+      <label>Name<input type="text" name="name" required /></label>
+      <label>Email<input type="email" name="email" required /></label>
+      <label>Subject<input type="text" name="subject" value="Contact form submission" /></label>
+      <label>Message<textarea name="message" rows="6" required></textarea></label>
+      <button type="submit" class="btn">Send</button>
+    </form>
+  </div>
+</BaseLayout>
+
+<style>
+  form { display: flex; flex-direction: column; gap: .85rem; margin: 1.5rem 0; }
+  label { display: flex; flex-direction: column; gap: .3rem; font-size: .9rem; color: var(--c-muted); }
+  input, textarea {
+    padding: .65rem .85rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem;
+    font-family: inherit; color: var(--c-ink);
+  }
+  input:focus, textarea:focus { outline: 2px solid var(--c-accent); border-color: var(--c-accent); }
+  button { align-self: flex-start; }
+</style>

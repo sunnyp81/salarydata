@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FAQ from '../../components/FAQ.astro';
+import TakeHomeCalculator from '../../components/TakeHomeCalculator.tsx';
+import { buildBreadcrumbSchema, buildFaqSchema } from '../../lib/schemaBuilder';
+
+const year = new Date().getFullYear();
+const url = '/salary-calculator/';
+const title = `UK Salary Calculator ${year} | Take-Home Pay, Tax & NI`;
+const description = `Calculate your UK take-home pay after income tax, National Insurance, student loan and pension for the 2024/25 tax year. Free, accurate, instant results.`;
+
+const faqs = [
+  {
+    question: 'How is my UK take-home pay calculated?',
+    answer: `<p>Your take-home is gross salary minus income tax, National Insurance (NI), student loan and pension contributions. For 2024/25 the personal allowance is £12,570; basic rate (20%) applies up to £50,270; higher rate (40%) up to £125,140; additional rate (45%) above that. NI is 8% between £12,570 and £50,270, 2% above. The personal allowance tapers by £1 for every £2 above £100,000.</p>`,
+  },
+  {
+    question: 'What tax year does this use?',
+    answer: `<p>This calculator uses the UK tax year 2024/25 (6 April 2024 – 5 April 2025) rates and thresholds for England, Wales and Northern Ireland. Scottish taxpayers pay different income-tax rates (the calculator does not apply Scottish bands).</p>`,
+  },
+  {
+    question: 'Does the calculator include salary sacrifice pension?',
+    answer: '<p>The pension slider reduces your taxable income before tax and NI are calculated, which is how salary-sacrifice schemes typically work. Workplace pensions using "net pay" arrangements give the same result. "Relief-at-source" schemes would calculate slightly differently — if in doubt, check with your payroll.</p>',
+  },
+  {
+    question: 'Which student loan plan should I choose?',
+    answer: `<p>Plan 1 is for English/Welsh students who started before Sept 2012. Plan 2 is Sept 2012 – Aug 2023. Plan 4 is Scotland. Plan 5 is Sept 2023 onwards. Postgraduate loans repay at 6%. Check your loan statement if unsure.</p>`,
+  },
+];
+
+const schema = [
+  buildBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Salary calculator', url }]),
+  buildFaqSchema(faqs.map((f) => ({ question: f.question, answer: f.answer.replace(/<[^>]+>/g, '') }))),
+];
+---
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="container">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Salary calculator', url }]} />
+    <h1>UK Salary Calculator ({year})</h1>
+    <p>
+      Enter your gross salary to see your take-home pay after income tax, National Insurance,
+      student loan and pension for the <strong>2024/25 tax year</strong>. Accurate, instant, free.
+    </p>
+
+    <TakeHomeCalculator client:load defaultSalary={45000} jobTitle="UK employee" location="UK" />
+
+    <div class="quick-presets">
+      <h3>Quick-check popular salaries</h3>
+      <div class="preset-grid">
+        <a href="#" data-salary="25000">£25,000</a>
+        <a href="#" data-salary="35000">£35,000</a>
+        <a href="#" data-salary="45000">£45,000</a>
+        <a href="#" data-salary="55000">£55,000</a>
+        <a href="#" data-salary="75000">£75,000</a>
+        <a href="#" data-salary="100000">£100,000</a>
+        <a href="#" data-salary="125000">£125,000</a>
+        <a href="#" data-salary="150000">£150,000</a>
+      </div>
+    </div>
+
+    <FAQ items={faqs} />
+  </div>
+</BaseLayout>
+
+<style>
+  .quick-presets { margin: 2rem 0; }
+  .preset-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: .5rem; }
+  .preset-grid a {
+    padding: .7rem 1rem; text-align: center; background: #f8fafc;
+    border: 1px solid #e2e8f0; border-radius: 8px; color: var(--c-ink); font-weight: 600;
+  }
+  .preset-grid a:hover { background: #fff; border-color: var(--c-accent); text-decoration: none; }
+</style>
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('.preset-grid a').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const salary = (e.currentTarget as HTMLAnchorElement).dataset.salary;
+      const input = document.querySelector<HTMLInputElement>('input[type="number"]');
+      if (input && salary) {
+        input.value = salary;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  });
+</script>

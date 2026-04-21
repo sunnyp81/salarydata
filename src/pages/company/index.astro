@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { formatGBP } from '../../lib/ukTaxCalc';
+
+const companies = (await getCollection('companies')).sort((a, b) => b.data.averageSalary - a.data.averageSalary);
+const title = 'UK Company Salaries — FTSE 100/250 Employer Pay Data';
+const description = 'Browse salary data for UK public and private employers. Average pay, role-level ranges, headcount, and headquarters.';
+---
+<BaseLayout title={title} description={description}>
+  <div class="container">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Companies', url: '/company/' }]} />
+    <h1>UK Company Salaries</h1>
+    <p>Average employer pay across FTSE 100, FTSE 250 and major UK private-sector companies.</p>
+    <table>
+      <thead>
+        <tr><th>Company</th><th>Sector</th><th>Index</th><th>HQ</th><th>Avg salary</th></tr>
+      </thead>
+      <tbody>
+        {companies.map((c) => (
+          <tr>
+            <td><a href={`/company/${c.data.slug}/salaries/`}><strong>{c.data.name}</strong></a></td>
+            <td>{c.data.sector}</td>
+            <td>{c.data.ftseIndex}</td>
+            <td>{c.data.headquarters}</td>
+            <td><strong>{formatGBP(c.data.averageSalary)}</strong></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</BaseLayout>

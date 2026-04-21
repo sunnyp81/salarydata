@@ -1,0 +1,32 @@
+{
+  "slug": "financial-controller",
+  "title": "Financial Controller",
+  "alternativeTitles": [
+    "Group Controller",
+    "Head of Finance",
+    "Finance Director"
+  ],
+  "category": "Finance",
+  "sectorCode": "2421",
+  "nationalMedianSalary": 75000,
+  "nationalLowerQuartile": 58000,
+  "nationalUpperQuartile": 98000,
+  "nationalMinimum": 45000,
+  "nationalMaximum": 150000,
+  "entryLevelSalary": 50000,
+  "seniorLevelSalary": 130000,
+  "requiredSkills": [
+    "IFRS",
+    "Consolidation",
+    "Audit",
+    "Team leadership",
+    "ERP systems"
+  ],
+  "relatedJobs": [
+    "accountant",
+    "financial-analyst"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

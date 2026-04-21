@@ -1,0 +1,32 @@
+{
+  "slug": "compliance-officer",
+  "title": "Compliance Officer",
+  "alternativeTitles": [
+    "Compliance Manager",
+    "Regulatory Officer",
+    "Risk & Compliance Analyst"
+  ],
+  "category": "Legal",
+  "sectorCode": "3544",
+  "nationalMedianSalary": 52000,
+  "nationalLowerQuartile": 38000,
+  "nationalUpperQuartile": 72000,
+  "nationalMinimum": 30000,
+  "nationalMaximum": 125000,
+  "entryLevelSalary": 32000,
+  "seniorLevelSalary": 105000,
+  "requiredSkills": [
+    "FCA regulations",
+    "AML",
+    "KYC",
+    "Risk assessment",
+    "Audit"
+  ],
+  "relatedJobs": [
+    "risk-manager",
+    "solicitor"
+  ],
+  "growthOutlook": "high",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

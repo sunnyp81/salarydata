@@ -1,0 +1,33 @@
+---
+export interface Props {
+  items: { question: string; answer: string }[];
+}
+const { items } = Astro.props;
+---
+<section class="faq">
+  <h2>Frequently asked questions</h2>
+  {items.map((item) => (
+    <details>
+      <summary>{item.question}</summary>
+      <div class="faq-answer" set:html={item.answer} />
+    </details>
+  ))}
+</section>
+<style>
+  .faq details {
+    border-bottom: 1px solid #e2e8f0;
+    padding: .9rem 0;
+  }
+  .faq summary {
+    cursor: pointer; font-weight: 600; font-size: 1.02rem;
+    list-style: none; padding-right: 1.5rem; position: relative;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: '+'; position: absolute; right: 0; top: 0; font-size: 1.3rem;
+    color: #0369a1; font-weight: 400;
+  }
+  .faq details[open] summary::after { content: '−'; }
+  .faq-answer { margin-top: .65rem; color: #334155; line-height: 1.65; }
+  .faq-answer :global(p) { margin: 0 0 .75rem; }
+</style>

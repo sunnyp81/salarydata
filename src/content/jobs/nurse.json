@@ -1,0 +1,32 @@
+{
+  "slug": "nurse",
+  "title": "Nurse",
+  "alternativeTitles": [
+    "Registered Nurse",
+    "Staff Nurse",
+    "Ward Nurse"
+  ],
+  "category": "Healthcare",
+  "sectorCode": "2231",
+  "nationalMedianSalary": 35000,
+  "nationalLowerQuartile": 28500,
+  "nationalUpperQuartile": 42500,
+  "nationalMinimum": 25000,
+  "nationalMaximum": 55000,
+  "entryLevelSalary": 27000,
+  "seniorLevelSalary": 50000,
+  "requiredSkills": [
+    "Clinical care",
+    "NMC registration",
+    "Medication administration",
+    "Patient assessment"
+  ],
+  "relatedJobs": [
+    "physiotherapist",
+    "radiographer",
+    "pharmacist"
+  ],
+  "growthOutlook": "high",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

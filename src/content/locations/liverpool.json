@@ -1,0 +1,17 @@
+{
+  "slug": "liverpool",
+  "name": "Liverpool",
+  "region": "North West",
+  "population": 910000,
+  "locationMultiplier": 0.93,
+  "costOfLivingIndex": 80,
+  "averageRent1Bed": 875,
+  "unemploymentRate": 5.8,
+  "majorEmployers": [
+    "Princes Food",
+    "Shop Direct",
+    "AstraZeneca",
+    "Jaguar Land Rover",
+    "Unilever"
+  ]
+}

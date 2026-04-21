@@ -1,0 +1,35 @@
+{
+  "slug": "software-engineer",
+  "title": "Software Engineer",
+  "alternativeTitles": [
+    "Software Developer",
+    "Programmer",
+    "Coder",
+    "Application Developer"
+  ],
+  "category": "Technology",
+  "sectorCode": "2136",
+  "nationalMedianSalary": 52000,
+  "nationalLowerQuartile": 38000,
+  "nationalUpperQuartile": 72000,
+  "nationalMinimum": 28000,
+  "nationalMaximum": 120000,
+  "entryLevelSalary": 32000,
+  "seniorLevelSalary": 95000,
+  "requiredSkills": [
+    "JavaScript",
+    "Python",
+    "Git",
+    "SQL",
+    "System design",
+    "Agile"
+  ],
+  "relatedJobs": [
+    "devops-engineer",
+    "data-analyst",
+    "product-manager"
+  ],
+  "growthOutlook": "high",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

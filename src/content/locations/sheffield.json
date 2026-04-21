@@ -1,0 +1,17 @@
+{
+  "slug": "sheffield",
+  "name": "Sheffield",
+  "region": "Yorkshire",
+  "population": 585000,
+  "locationMultiplier": 0.93,
+  "costOfLivingIndex": 79,
+  "averageRent1Bed": 825,
+  "unemploymentRate": 4.7,
+  "majorEmployers": [
+    "Sheffield Forgemasters",
+    "HSBC",
+    "University of Sheffield",
+    "Plusnet",
+    "Capita"
+  ]
+}

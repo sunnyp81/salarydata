@@ -1,0 +1,17 @@
+{
+  "slug": "milton-keynes",
+  "name": "Milton Keynes",
+  "region": "South East",
+  "population": 290000,
+  "locationMultiplier": 1.05,
+  "costOfLivingIndex": 95,
+  "averageRent1Bed": 1125,
+  "unemploymentRate": 3.7,
+  "majorEmployers": [
+    "Santander UK",
+    "Mercedes-Benz",
+    "Argos",
+    "Volkswagen Financial Services",
+    "Network Rail"
+  ]
+}

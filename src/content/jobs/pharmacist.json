@@ -1,0 +1,31 @@
+{
+  "slug": "pharmacist",
+  "title": "Pharmacist",
+  "alternativeTitles": [
+    "Community Pharmacist",
+    "Hospital Pharmacist",
+    "Clinical Pharmacist"
+  ],
+  "category": "Healthcare",
+  "sectorCode": "2213",
+  "nationalMedianSalary": 48000,
+  "nationalLowerQuartile": 38000,
+  "nationalUpperQuartile": 60000,
+  "nationalMinimum": 32000,
+  "nationalMaximum": 85000,
+  "entryLevelSalary": 35000,
+  "seniorLevelSalary": 72000,
+  "requiredSkills": [
+    "Medicines optimisation",
+    "GPhC registration",
+    "Clinical checking",
+    "Consultations"
+  ],
+  "relatedJobs": [
+    "nurse",
+    "gp"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

@@ -1,0 +1,32 @@
+{
+  "slug": "investment-banker",
+  "title": "Investment Banker",
+  "alternativeTitles": [
+    "M&A Analyst",
+    "Corporate Finance Associate",
+    "ECM Analyst"
+  ],
+  "category": "Finance",
+  "sectorCode": "3534",
+  "nationalMedianSalary": 85000,
+  "nationalLowerQuartile": 60000,
+  "nationalUpperQuartile": 140000,
+  "nationalMinimum": 45000,
+  "nationalMaximum": 350000,
+  "entryLevelSalary": 55000,
+  "seniorLevelSalary": 220000,
+  "requiredSkills": [
+    "DCF modelling",
+    "Pitch decks",
+    "Valuation",
+    "Deal execution",
+    "Client relations"
+  ],
+  "relatedJobs": [
+    "financial-analyst",
+    "risk-manager"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

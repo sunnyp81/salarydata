@@ -1,0 +1,17 @@
+{
+  "slug": "aberdeen",
+  "name": "Aberdeen",
+  "region": "Scotland",
+  "population": 225000,
+  "locationMultiplier": 1.04,
+  "costOfLivingIndex": 86,
+  "averageRent1Bed": 900,
+  "unemploymentRate": 4.2,
+  "majorEmployers": [
+    "BP",
+    "Shell",
+    "TotalEnergies",
+    "Apache",
+    "Robert Gordon University"
+  ]
+}

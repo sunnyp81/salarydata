@@ -1,0 +1,29 @@
+{
+  "name": "salarydata",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "prefetch:jobs": "tsx scripts/prefetchJobListings.ts",
+    "refresh:ons": "tsx scripts/refreshOnsData.ts",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name salarydata"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.2.0",
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.95.0"
+  }
+}

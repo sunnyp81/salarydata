@@ -1,0 +1,33 @@
+{
+  "slug": "devops-engineer",
+  "title": "DevOps Engineer",
+  "alternativeTitles": [
+    "Site Reliability Engineer",
+    "Platform Engineer",
+    "Cloud Engineer"
+  ],
+  "category": "Technology",
+  "sectorCode": "2139",
+  "nationalMedianSalary": 58000,
+  "nationalLowerQuartile": 44000,
+  "nationalUpperQuartile": 78000,
+  "nationalMinimum": 32000,
+  "nationalMaximum": 120000,
+  "entryLevelSalary": 38000,
+  "seniorLevelSalary": 105000,
+  "requiredSkills": [
+    "AWS",
+    "Kubernetes",
+    "Terraform",
+    "CI/CD",
+    "Linux",
+    "Docker"
+  ],
+  "relatedJobs": [
+    "software-engineer",
+    "data-analyst"
+  ],
+  "growthOutlook": "high",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

@@ -1,0 +1,17 @@
+{
+  "slug": "birmingham",
+  "name": "Birmingham",
+  "region": "West Midlands",
+  "population": 2650000,
+  "locationMultiplier": 0.98,
+  "costOfLivingIndex": 82,
+  "averageRent1Bed": 950,
+  "unemploymentRate": 5.9,
+  "majorEmployers": [
+    "HSBC UK",
+    "PwC",
+    "Jaguar Land Rover",
+    "Deutsche Bank",
+    "KPMG"
+  ]
+}

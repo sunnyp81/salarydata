@@ -1,0 +1,32 @@
+{
+  "slug": "ux-designer",
+  "title": "UX Designer",
+  "alternativeTitles": [
+    "Product Designer",
+    "UI/UX Designer",
+    "Interaction Designer"
+  ],
+  "category": "Technology",
+  "sectorCode": "3421",
+  "nationalMedianSalary": 45000,
+  "nationalLowerQuartile": 34000,
+  "nationalUpperQuartile": 60000,
+  "nationalMinimum": 26000,
+  "nationalMaximum": 90000,
+  "entryLevelSalary": 30000,
+  "seniorLevelSalary": 78000,
+  "requiredSkills": [
+    "Figma",
+    "User research",
+    "Wireframing",
+    "Prototyping",
+    "Design systems"
+  ],
+  "relatedJobs": [
+    "product-manager",
+    "software-engineer"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

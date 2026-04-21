@@ -1,0 +1,33 @@
+{
+  "slug": "project-manager",
+  "title": "Project Manager",
+  "alternativeTitles": [
+    "Senior Project Manager",
+    "Programme Manager",
+    "PMO Manager"
+  ],
+  "category": "Construction",
+  "sectorCode": "2431",
+  "nationalMedianSalary": 55000,
+  "nationalLowerQuartile": 42000,
+  "nationalUpperQuartile": 75000,
+  "nationalMinimum": 32000,
+  "nationalMaximum": 120000,
+  "entryLevelSalary": 38000,
+  "seniorLevelSalary": 100000,
+  "requiredSkills": [
+    "PRINCE2",
+    "APM",
+    "Budget management",
+    "Stakeholder management",
+    "Risk management"
+  ],
+  "relatedJobs": [
+    "site-manager",
+    "quantity-surveyor",
+    "product-manager"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { formatGBP } from '../../../lib/ukTaxCalc';
+
+export async function getStaticPaths() {
+  const locations = await getCollection('locations');
+  return locations.map((l) => ({ params: { location: l.data.slug }, props: { location: l.data } }));
+}
+
+const { location } = Astro.props;
+const jobs = await getCollection('jobs');
+
+const rows = jobs
+  .map((j) => ({
+    slug: j.data.slug,
+    title: j.data.title,
+    category: j.data.category,
+    median: Math.round(j.data.nationalMedianSalary * location.locationMultiplier),
+    lq: Math.round(j.data.nationalLowerQuartile * location.locationMultiplier),
+    uq: Math.round(j.data.nationalUpperQuartile * location.locationMultiplier),
+  }))
+  .sort((a, b) => b.median - a.median);
+
+const year = new Date().getFullYear();
+const url = `/location/${location.slug}/`;
+const title = `${location.name} Salaries ${year} | Average Pay by Job`;
+const description = `Average salaries in ${location.name} by job title. ${location.name} pay is ${Math.round((location.locationMultiplier - 1) * 100)}% ${location.locationMultiplier >= 1 ? 'above' : 'below'} UK average. Cost of living index: ${location.costOfLivingIndex}.`;
+
+const avgSalary = Math.round(rows.reduce((s, r) => s + r.median, 0) / rows.length);
+const crumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Locations', url: '/salary/' },
+  { name: location.name, url },
+];
+---
+<BaseLayout title={title} description={description}>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <h1>Salaries in {location.name} ({year})</h1>
+    <p>
+      {location.name} ({location.region}) has an average salary multiplier of
+      <strong>{location.locationMultiplier.toFixed(2)}×</strong> the UK national median,
+      a cost-of-living index of <strong>{location.costOfLivingIndex}</strong> and unemployment of <strong>{location.unemploymentRate}%</strong>.
+      Major employers include {location.majorEmployers.join(', ')}.
+    </p>
+
+    <div class="stats">
+      <div><span>Average salary</span><strong>{formatGBP(avgSalary)}</strong></div>
+      <div><span>Cost of living index</span><strong>{location.costOfLivingIndex}</strong></div>
+      <div><span>Average 1-bed rent</span><strong>{formatGBP(location.averageRent1Bed)}/mo</strong></div>
+      <div><span>Unemployment</span><strong>{location.unemploymentRate}%</strong></div>
+    </div>
+
+    <h2>Salaries by job in {location.name}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Job title</th>
+          <th>Category</th>
+          <th>Lower</th>
+          <th>Median</th>
+          <th>Upper</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <td><a href={`/salary/${r.slug}/${location.slug}/`}><strong>{r.title}</strong></a></td>
+            <td>{r.category}</td>
+            <td>{formatGBP(r.lq)}</td>
+            <td><strong>{formatGBP(r.median)}</strong></td>
+            <td>{formatGBP(r.uq)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</BaseLayout>
+
+<style>
+  .stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;
+    margin: 1.5rem 0; padding: 1.25rem; background: #f8fafc;
+    border: 1px solid #e2e8f0; border-radius: 12px;
+  }
+  .stats > div { display: flex; flex-direction: column; }
+  .stats span { font-size: .8rem; color: var(--c-muted); }
+  .stats strong { font-size: 1.25rem; color: var(--c-ink); }
+</style>

@@ -1,0 +1,33 @@
+{
+  "slug": "financial-analyst",
+  "title": "Financial Analyst",
+  "alternativeTitles": [
+    "Investment Analyst",
+    "FP&A Analyst",
+    "Corporate Finance Analyst"
+  ],
+  "category": "Finance",
+  "sectorCode": "3534",
+  "nationalMedianSalary": 48000,
+  "nationalLowerQuartile": 36000,
+  "nationalUpperQuartile": 65000,
+  "nationalMinimum": 28000,
+  "nationalMaximum": 110000,
+  "entryLevelSalary": 32000,
+  "seniorLevelSalary": 90000,
+  "requiredSkills": [
+    "Financial modelling",
+    "Excel",
+    "VBA",
+    "Valuation",
+    "Forecasting"
+  ],
+  "relatedJobs": [
+    "accountant",
+    "investment-banker",
+    "risk-manager"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

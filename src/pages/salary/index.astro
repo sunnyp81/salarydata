@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { formatGBP } from '../../lib/ukTaxCalc';
+
+const jobs = (await getCollection('jobs')).sort((a, b) => b.data.nationalMedianSalary - a.data.nationalMedianSalary);
+const locations = (await getCollection('locations')).sort((a, b) => b.data.population - a.data.population);
+
+const categories = Array.from(new Set(jobs.map((j) => j.data.category)));
+
+const title = 'UK Salary Data — Browse 2,000+ Job Salaries by City';
+const description = 'Browse UK salary data by job title and city. Median pay, quartiles, experience bands and take-home calculators. Source: ONS Annual Survey of Hours and Earnings.';
+---
+<BaseLayout title={title} description={description}>
+  <div class="container">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Salaries', url: '/salary/' }]} />
+    <h1>UK Salary Data</h1>
+    <p>
+      Browse average UK salaries by job title and city. All figures are gross per year
+      from the ONS Annual Survey of Hours and Earnings, adjusted for regional pay differentials.
+    </p>
+
+    <h2>Browse by job category</h2>
+    {categories.map((cat) => (
+      <section class="cat">
+        <h3>{cat}</h3>
+        <div class="job-grid">
+          {jobs.filter((j) => j.data.category === cat).map((j) => (
+            <a href={`/salary/${j.data.slug}/`} class="job-card">
+              <strong>{j.data.title}</strong>
+              <span>{formatGBP(j.data.nationalMedianSalary)} median</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <h2>Browse by city</h2>
+    <div class="city-grid">
+      {locations.map((l) => (
+        <a href={`/location/${l.data.slug}/`} class="city-card">
+          <strong>{l.data.name}</strong>
+          <span>{l.data.region}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .cat { margin: 1.5rem 0 2rem; }
+  .job-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .6rem; }
+  .job-card, .city-card {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .75rem 1rem; background: #f8fafc; border: 1px solid #e2e8f0;
+    border-radius: 10px; color: var(--c-ink);
+  }
+  .job-card:hover, .city-card:hover { background: #fff; border-color: var(--c-accent); text-decoration: none; }
+  .job-card span, .city-card span { color: var(--c-muted); font-size: .85rem; }
+  .city-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .5rem; }
+</style>

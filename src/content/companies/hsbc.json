@@ -1,0 +1,44 @@
+{
+  "slug": "hsbc",
+  "name": "HSBC Holdings",
+  "sector": "Banking",
+  "ftseIndex": "FTSE 100",
+  "employeeCount": 220000,
+  "headquarters": "London",
+  "averageSalary": 68000,
+  "salaryByRole": [
+    {
+      "role": "Software Engineer",
+      "median": 62000,
+      "range": [
+        42000,
+        92000
+      ]
+    },
+    {
+      "role": "Financial Analyst",
+      "median": 55000,
+      "range": [
+        38000,
+        78000
+      ]
+    },
+    {
+      "role": "Risk Manager",
+      "median": 82000,
+      "range": [
+        58000,
+        130000
+      ]
+    },
+    {
+      "role": "Compliance Officer",
+      "median": 62000,
+      "range": [
+        42000,
+        95000
+      ]
+    }
+  ],
+  "lastUpdated": "2026-04-21"
+}

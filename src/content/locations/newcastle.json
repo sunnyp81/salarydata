@@ -1,0 +1,17 @@
+{
+  "slug": "newcastle",
+  "name": "Newcastle",
+  "region": "North East",
+  "population": 810000,
+  "locationMultiplier": 0.92,
+  "costOfLivingIndex": 78,
+  "averageRent1Bed": 825,
+  "unemploymentRate": 5.1,
+  "majorEmployers": [
+    "Sage",
+    "Newcastle Building Society",
+    "Barclays",
+    "HMRC",
+    "Nissan"
+  ]
+}

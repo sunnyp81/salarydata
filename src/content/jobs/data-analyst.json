@@ -1,0 +1,34 @@
+{
+  "slug": "data-analyst",
+  "title": "Data Analyst",
+  "alternativeTitles": [
+    "Business Analyst",
+    "BI Analyst",
+    "Analytics Consultant"
+  ],
+  "category": "Technology",
+  "sectorCode": "2425",
+  "nationalMedianSalary": 38000,
+  "nationalLowerQuartile": 30000,
+  "nationalUpperQuartile": 50000,
+  "nationalMinimum": 24000,
+  "nationalMaximum": 75000,
+  "entryLevelSalary": 26000,
+  "seniorLevelSalary": 65000,
+  "requiredSkills": [
+    "SQL",
+    "Excel",
+    "Power BI",
+    "Tableau",
+    "Python",
+    "Statistics"
+  ],
+  "relatedJobs": [
+    "software-engineer",
+    "financial-analyst",
+    "product-manager"
+  ],
+  "growthOutlook": "high",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

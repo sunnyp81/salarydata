@@ -1,0 +1,17 @@
+{
+  "slug": "belfast",
+  "name": "Belfast",
+  "region": "Northern Ireland",
+  "population": 345000,
+  "locationMultiplier": 0.9,
+  "costOfLivingIndex": 76,
+  "averageRent1Bed": 825,
+  "unemploymentRate": 3.6,
+  "majorEmployers": [
+    "Citi",
+    "PwC",
+    "Allstate",
+    "Liberty IT",
+    "BT"
+  ]
+}

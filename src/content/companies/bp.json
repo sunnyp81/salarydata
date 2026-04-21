@@ -1,0 +1,44 @@
+{
+  "slug": "bp",
+  "name": "BP",
+  "sector": "Energy",
+  "ftseIndex": "FTSE 100",
+  "employeeCount": 68000,
+  "headquarters": "London",
+  "averageSalary": 72000,
+  "salaryByRole": [
+    {
+      "role": "Software Engineer",
+      "median": 68000,
+      "range": [
+        45000,
+        98000
+      ]
+    },
+    {
+      "role": "Project Manager",
+      "median": 78000,
+      "range": [
+        55000,
+        115000
+      ]
+    },
+    {
+      "role": "Financial Analyst",
+      "median": 58000,
+      "range": [
+        42000,
+        82000
+      ]
+    },
+    {
+      "role": "Structural Engineer",
+      "median": 62000,
+      "range": [
+        45000,
+        92000
+      ]
+    }
+  ],
+  "lastUpdated": "2026-04-21"
+}

@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+const title = 'Methodology — SalaryData.co.uk';
+const description = 'How we calculate UK salary figures, regional adjustments, take-home pay and job-market estimates.';
+---
+<BaseLayout title={title} description={description}>
+  <div class="container" style="max-width:780px">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Methodology', url: '/methodology/' }]} />
+    <h1>Methodology</h1>
+
+    <h2>Salary data</h2>
+    <p>
+      Base figures come from the <a href="https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/2023">ONS Annual Survey of Hours and Earnings (ASHE)</a>,
+      which samples ~1% of all HMRC PAYE records and publishes gross weekly and annual earnings by
+      SOC 2020 occupation code. We use the full-time employee distribution: 10th percentile (minimum),
+      25th percentile (lower quartile), 50th percentile (median), 75th percentile (upper quartile)
+      and 90th percentile (maximum).
+    </p>
+
+    <h2>Regional adjustment</h2>
+    <p>
+      We apply a location multiplier to each job's national median to estimate city-level pay.
+      The multiplier is derived from ONS regional median gross pay and validated against Reed and
+      Indeed job-listing aggregate salaries. Example multipliers: London 1.28, Reading 1.12,
+      Manchester 1.02, Newcastle 0.92.
+    </p>
+
+    <h2>Cost-of-living adjustment</h2>
+    <p>
+      "Cost-of-living adjusted salary" divides nominal pay by the local cost-of-living index
+      (UK average = 100). This represents real purchasing power — useful when comparing offers
+      across cities where a higher nominal salary may not translate to better disposable income.
+    </p>
+
+    <h2>Take-home pay</h2>
+    <p>
+      Take-home calculations use 2024/25 UK tax-year thresholds (6 Apr 2024 – 5 Apr 2025):
+      personal allowance £12,570 (tapered above £100,000), basic rate 20% to £50,270, higher rate 40%
+      to £125,140, additional rate 45% above. Class 1 employee NI: 8% on £12,570–£50,270, 2% above.
+      Student loan plans 1/2/4/5 and postgraduate are supported. Pension contributions are modelled as
+      salary sacrifice (reduce taxable income before tax and NI).
+    </p>
+
+    <h2>Job-market data</h2>
+    <p>
+      Live listings (where shown) come from the <a href="https://www.reed.co.uk/developers">Reed Jobseeker API</a>,
+      cached daily. Active-listing estimates (on pages without a live fetch) scale with city population and
+      the occupation growth outlook.
+    </p>
+
+    <h2>Update frequency</h2>
+    <p>
+      Salary base figures are refreshed annually when ONS ASHE publishes new data (typically late October).
+      Tax-year rates are updated each April. Reed listings are refreshed daily.
+    </p>
+  </div>
+</BaseLayout>

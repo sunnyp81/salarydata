@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+const title = 'Privacy Policy — SalaryData.co.uk';
+const description = 'Privacy policy for SalaryData.co.uk.';
+---
+<BaseLayout title={title} description={description}>
+  <div class="container" style="max-width:780px">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Privacy', url: '/privacy/' }]} />
+    <h1>Privacy Policy</h1>
+    <p>
+      SalaryData.co.uk does not require you to register or provide personal information to use this site.
+      The take-home pay calculator runs entirely in your browser — figures you enter are never sent to our servers.
+    </p>
+    <p>
+      We use privacy-friendly analytics to count page visits. We do not sell data. Outbound links to Reed,
+      TopCV and CV-Library carry UTM parameters so those partners can credit referrals; we may earn a
+      commission if you apply for a job or purchase a service through those links, at no cost to you.
+    </p>
+  </div>
+</BaseLayout>

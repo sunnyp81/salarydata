@@ -1,0 +1,33 @@
+{
+  "slug": "marketing-manager",
+  "title": "Marketing Manager",
+  "alternativeTitles": [
+    "Senior Marketing Manager",
+    "Head of Marketing",
+    "Marketing Director"
+  ],
+  "category": "Marketing",
+  "sectorCode": "1134",
+  "nationalMedianSalary": 48000,
+  "nationalLowerQuartile": 36000,
+  "nationalUpperQuartile": 65000,
+  "nationalMinimum": 28000,
+  "nationalMaximum": 110000,
+  "entryLevelSalary": 32000,
+  "seniorLevelSalary": 90000,
+  "requiredSkills": [
+    "Campaign planning",
+    "Budget management",
+    "Analytics",
+    "Team leadership"
+  ],
+  "relatedJobs": [
+    "seo-manager",
+    "content-manager",
+    "paid-media-manager",
+    "brand-manager"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

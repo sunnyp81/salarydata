@@ -1,0 +1,32 @@
+{
+  "slug": "solicitor",
+  "title": "Solicitor",
+  "alternativeTitles": [
+    "Associate Solicitor",
+    "Senior Solicitor",
+    "Legal Counsel"
+  ],
+  "category": "Legal",
+  "sectorCode": "2412",
+  "nationalMedianSalary": 58000,
+  "nationalLowerQuartile": 42000,
+  "nationalUpperQuartile": 85000,
+  "nationalMinimum": 30000,
+  "nationalMaximum": 180000,
+  "entryLevelSalary": 35000,
+  "seniorLevelSalary": 140000,
+  "requiredSkills": [
+    "SRA qualification",
+    "Contract law",
+    "Legal research",
+    "Client advisory"
+  ],
+  "relatedJobs": [
+    "paralegal",
+    "barrister",
+    "compliance-officer"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

@@ -1,0 +1,290 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../../components/Breadcrumbs.astro';
+import FAQ from '../../../../components/FAQ.astro';
+import CVBuilderCTA from '../../../../components/CVBuilderCTA.astro';
+import SalaryRangeChart from '../../../../components/SalaryRangeChart.tsx';
+import TakeHomeCalculator from '../../../../components/TakeHomeCalculator.tsx';
+import JobListingsWidget from '../../../../components/JobListingsWidget.tsx';
+import SalaryComparison from '../../../../components/SalaryComparison.tsx';
+import { adjustSalaryForLocation, experienceBands } from '../../../../lib/onsData';
+import { buildBreadcrumbSchema, buildFaqSchema, buildOccupationSchema } from '../../../../lib/schemaBuilder';
+import { reedJobsLink } from '../../../../lib/affiliateLinks';
+import { formatGBP } from '../../../../lib/ukTaxCalc';
+import { readReedCache } from '../../../../lib/cache';
+
+export async function getStaticPaths() {
+  const jobs = await getCollection('jobs');
+  const locations = await getCollection('locations');
+  return jobs.flatMap((job) =>
+    locations.map((location) => ({
+      params: { job: job.data.slug, location: location.data.slug },
+      props: { job: job.data, location: location.data },
+    }))
+  );
+}
+
+const { job, location } = Astro.props;
+const adj = adjustSalaryForLocation(job, location);
+const bands = experienceBands(job, location.locationMultiplier);
+
+// Pick 4 comparison cities (other top-pop cities, excluding current)
+const allLocations = await getCollection('locations');
+const comparisonCities = allLocations
+  .filter((l) => l.data.slug !== location.slug)
+  .sort((a, b) => b.data.population - a.data.population)
+  .slice(0, 4)
+  .map((l) => ({
+    label: l.data.name,
+    salary: Math.round(job.nationalMedianSalary * l.data.locationMultiplier),
+    url: `/salary/${job.slug}/${l.data.slug}/`,
+  }));
+
+const currentRow = { label: location.name, salary: adj.median, isCurrent: true };
+const ukAverage = { label: 'UK average', salary: job.nationalMedianSalary };
+
+// Related jobs
+const relatedJobEntries = await Promise.all(
+  job.relatedJobs.slice(0, 4).map(async (slug) => {
+    try { return await getEntry('jobs', slug); } catch { return undefined; }
+  })
+);
+const relatedJobs = relatedJobEntries.filter((e): e is NonNullable<typeof e> => !!e).slice(0, 3);
+
+// Cached Reed listings (only present if prefetch script has run)
+const cachedListings = readReedCache(job.slug, location.slug) ?? [];
+const reedUrl = reedJobsLink(job.slug, location.slug, `${job.slug}-${location.slug}`);
+
+// Purchasing-power comparison copy
+const avgCoL = 100;
+const colDiff = Math.round(((adj.costOfLivingAdjusted - job.nationalMedianSalary) / job.nationalMedianSalary) * 100);
+const colDirection = colDiff >= 0 ? 'more' : 'less';
+
+// SEO
+const year = new Date().getFullYear();
+const title = `${job.title} Salary in ${location.name} ${year} | Average Pay & Take-Home`;
+const description = `The average ${job.title} salary in ${location.name} is ${formatGBP(adj.median)}/year. See salary ranges by experience, take-home pay calculator, and live jobs. Data: ONS ${year}.`;
+const url = `/salary/${job.slug}/${location.slug}/`;
+
+// FAQs
+const monthlyGross = Math.round(adj.median / 12);
+const faqs = [
+  {
+    question: `What is the average ${job.title} salary in ${location.name}?`,
+    answer: `<p>The average (median) ${job.title} salary in ${location.name} is <strong>${formatGBP(adj.median)} per year</strong>, based on ONS Annual Survey of Hours and Earnings data adjusted for regional pay differentials. The lower quartile is ${formatGBP(adj.lowerQuartile)} and the upper quartile is ${formatGBP(adj.upperQuartile)}.</p>`,
+  },
+  {
+    question: `How much does a ${job.title} earn per month in ${location.name}?`,
+    answer: `<p>A ${job.title} in ${location.name} earns approximately <strong>${formatGBP(monthlyGross)} gross per month</strong> on the median salary. After income tax and National Insurance (2024/25 tax year), take-home pay is roughly ${formatGBP(Math.round(monthlyGross * 0.72))} per month. Use the calculator above for an exact figure based on your pension and student loan.</p>`,
+  },
+  {
+    question: `What is the starting salary for a ${job.title} in ${location.name}?`,
+    answer: `<p>Entry-level ${job.title}s in ${location.name} typically earn between <strong>${formatGBP(bands[0].min)} and ${formatGBP(bands[0].max)}</strong>. With 3–5 years of experience, salaries rise to ${formatGBP(bands[1].min)}–${formatGBP(bands[1].max)}.</p>`,
+  },
+  {
+    question: `Is ${location.name} a good place to work as a ${job.title}?`,
+    answer: `<p>${location.name} has an unemployment rate of ${location.unemploymentRate}% and is home to major employers including ${location.majorEmployers.slice(0, 3).join(', ')}. Salaries here are ${adj.multiplier > 1 ? `${Math.round((adj.multiplier - 1) * 100)}% above` : `${Math.round((1 - adj.multiplier) * 100)}% below`} the UK average for this role. Cost of living (index ${location.costOfLivingIndex}) means your ${formatGBP(adj.median)} salary has the real purchasing power of ${formatGBP(adj.costOfLivingAdjusted)} nationally.</p>`,
+  },
+  {
+    question: `What skills do ${job.title}s need to earn more?`,
+    answer: `<p>High-earning ${job.title}s in ${location.name} typically have strong skills in <strong>${job.requiredSkills.slice(0, 3).join(', ')}</strong>. The market outlook for this role is <strong>${job.growthOutlook}</strong>. To reach the upper quartile (${formatGBP(adj.upperQuartile)}+), progress to senior or lead positions and build expertise in ${job.requiredSkills.slice(3, 5).join(' and ') || job.requiredSkills[0]}.</p>`,
+  },
+];
+
+const crumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Salaries', url: '/salary/' },
+  { name: job.title, url: `/salary/${job.slug}/` },
+  { name: location.name, url },
+];
+
+const schema = [
+  buildBreadcrumbSchema(crumbs),
+  buildFaqSchema(faqs.map((f) => ({ question: f.question, answer: f.answer.replace(/<[^>]+>/g, '') }))),
+  buildOccupationSchema({
+    name: `${job.title} in ${location.name}`,
+    description: `${job.title} salary and job market data for ${location.name}, UK.`,
+    occupationLocation: location.name,
+    medianSalary: adj.median,
+    lowerSalary: adj.lowerQuartile,
+    upperSalary: adj.upperQuartile,
+    skills: job.requiredSkills,
+    url,
+  }),
+];
+
+// Career progression tips
+const tips = [
+  `Master ${job.requiredSkills.slice(0, 2).join(' and ')} — these are the highest-paying skills for ${job.title}s in ${location.name}.`,
+  `Target ${job.growthOutlook === 'high' ? 'high-growth sectors' : 'established employers'} like ${location.majorEmployers.slice(0, 2).join(' and ')}, who typically pay 10–20% above market median.`,
+  `Move into senior positions by year 6. Senior ${job.title}s earn ${formatGBP(bands[2].min)}–${formatGBP(bands[2].max)} in ${location.name}.`,
+  `Consider contract work once you have 5+ years experience — day rates in ${location.name} typically equate to ${formatGBP(Math.round(adj.senior * 1.3))}+ annualised.`,
+  `Gain one of: ${job.requiredSkills.slice(-2).join(', ')}. These certifications/specialisms correlate with upper-quartile earnings.`,
+];
+---
+<BaseLayout title={title} description={description} canonical={new URL(url, Astro.site).toString()} schema={schema}>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+
+    <section class="hero">
+      <h1>{job.title} Salary in {location.name} ({year})</h1>
+      <p class="hero-sub">
+        Average {job.title} salary in {location.name} — data from ONS Annual Survey of Hours and Earnings ({year - 1}).
+      </p>
+      <div class="salary-hero">
+        <div>
+          <span class="salary-label">Median salary</span>
+          <span class="salary-value">{formatGBP(adj.median)}</span>
+          <span class="salary-unit">per year</span>
+        </div>
+        <div class="salary-meta">
+          <div>
+            <span>Lower quartile</span>
+            <strong>{formatGBP(adj.lowerQuartile)}</strong>
+          </div>
+          <div>
+            <span>Upper quartile</span>
+            <strong>{formatGBP(adj.upperQuartile)}</strong>
+          </div>
+          <div>
+            <span>Active jobs (est.)</span>
+            <strong>{adj.activeJobListingsEstimate.toLocaleString()}</strong>
+          </div>
+        </div>
+      </div>
+      <p class="source">Source: ONS Annual Survey of Hours and Earnings, {year - 1}. Updated {job.lastUpdated}.</p>
+    </section>
+
+    <SalaryRangeChart
+      client:load
+      lowerQuartile={adj.lowerQuartile}
+      median={adj.median}
+      upperQuartile={adj.upperQuartile}
+      minimum={adj.minimum}
+      maximum={adj.maximum}
+    />
+
+    <h2>Salary by experience</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Experience level</th>
+          <th>Salary range</th>
+          <th>Median</th>
+        </tr>
+      </thead>
+      <tbody>
+        {bands.map((b) => (
+          <tr>
+            <td><strong>{b.level}</strong></td>
+            <td>{formatGBP(b.min)} – {formatGBP(b.max)}</td>
+            <td>{formatGBP(Math.round((b.min + b.max) / 2))}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>Cost-of-living adjusted:</strong>
+      A {formatGBP(adj.median)} {job.title} salary in {location.name} is equivalent to
+      <strong>{formatGBP(adj.costOfLivingAdjusted)}</strong> in UK-average purchasing power —
+      that's {Math.abs(colDiff)}% {colDirection} real value than the national average.
+    </div>
+
+    <TakeHomeCalculator client:visible defaultSalary={adj.median} jobTitle={job.title} location={location.name} />
+
+    <CVBuilderCTA jobTitle={job.title} campaign={`${job.slug}-${location.slug}`} />
+
+    <JobListingsWidget
+      client:visible
+      listings={cachedListings.slice(0, 5)}
+      jobTitle={job.title}
+      location={location.name}
+      estimateCount={adj.activeJobListingsEstimate}
+      reedUrl={reedUrl}
+    />
+
+    <SalaryComparison
+      client:visible
+      title={`${job.title} salary: ${location.name} vs UK average`}
+      rows={[currentRow, ukAverage]}
+    />
+
+    <SalaryComparison
+      client:visible
+      title={`${job.title} salary: ${location.name} vs 4 other UK cities`}
+      rows={[currentRow, ...comparisonCities]}
+    />
+
+    <h2>How to earn more as a {job.title} in {location.name}</h2>
+    <ol class="tips">
+      {tips.map((tip) => <li>{tip}</li>)}
+    </ol>
+
+    {relatedJobs.length > 0 && (
+      <>
+        <h2>Related job salaries in {location.name}</h2>
+        <ul class="related">
+          {relatedJobs.map((rj) => (
+            <li>
+              <a href={`/salary/${rj.data.slug}/${location.slug}/`}>
+                <strong>{rj.data.title}</strong>
+                <span>{formatGBP(Math.round(rj.data.nationalMedianSalary * location.locationMultiplier))} median</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    <FAQ items={faqs} />
+
+    <p class="source small">
+      Data sources: ONS Annual Survey of Hours and Earnings ({year - 1}), Reed job listings,
+      cost-of-living data from regional statistics. Figures are gross unless stated.
+      Tax calculations use 2024/25 rates for England, Wales and Northern Ireland.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero { padding: 1.5rem 0 1rem; }
+  .hero-sub { color: var(--c-muted); font-size: 1.05rem; }
+  .salary-hero {
+    display: grid; grid-template-columns: auto 1fr; gap: 2rem;
+    align-items: center; padding: 1.5rem; margin: 1.25rem 0;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 1px solid #bae6fd; border-radius: 16px;
+  }
+  .salary-label { display: block; font-size: .85rem; color: var(--c-muted); text-transform: uppercase; letter-spacing: .05em; }
+  .salary-value {
+    display: block; font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 800;
+    color: var(--c-accent); line-height: 1; margin: .25rem 0;
+  }
+  .salary-unit { color: var(--c-muted); font-size: 1rem; }
+  .salary-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .salary-meta > div { display: flex; flex-direction: column; }
+  .salary-meta span { font-size: .8rem; color: var(--c-muted); margin-bottom: .2rem; }
+  .salary-meta strong { font-size: 1.1rem; color: var(--c-ink); }
+  .source { color: var(--c-muted); font-size: .85rem; font-style: italic; }
+  .source.small { font-size: .8rem; margin-top: 2rem; }
+  .callout {
+    padding: 1rem 1.25rem; background: #dcfce7; border-left: 4px solid #15803d;
+    border-radius: 8px; margin: 1.5rem 0;
+  }
+  .tips { padding-left: 1.25rem; }
+  .tips li { margin-bottom: .75rem; }
+  .related { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .75rem; }
+  .related li a {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .85rem 1.1rem; background: #f8fafc; border: 1px solid #e2e8f0;
+    border-radius: 10px; color: var(--c-ink);
+  }
+  .related li a:hover { background: #fff; border-color: var(--c-accent); text-decoration: none; }
+  .related li span { color: var(--c-muted); font-size: .9rem; }
+  @media (max-width: 720px) {
+    .salary-hero { grid-template-columns: 1fr; }
+    .salary-meta { grid-template-columns: 1fr 1fr; }
+  }
+</style>

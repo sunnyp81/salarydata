@@ -1,0 +1,17 @@
+{
+  "slug": "cardiff",
+  "name": "Cardiff",
+  "region": "Wales",
+  "population": 480000,
+  "locationMultiplier": 0.95,
+  "costOfLivingIndex": 81,
+  "averageRent1Bed": 925,
+  "unemploymentRate": 4.3,
+  "majorEmployers": [
+    "Admiral Group",
+    "BBC Wales",
+    "Principality",
+    "Legal & General",
+    "NHS Wales"
+  ]
+}

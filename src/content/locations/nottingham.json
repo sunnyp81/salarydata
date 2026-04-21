@@ -1,0 +1,17 @@
+{
+  "slug": "nottingham",
+  "name": "Nottingham",
+  "region": "East Midlands",
+  "population": 730000,
+  "locationMultiplier": 0.94,
+  "costOfLivingIndex": 80,
+  "averageRent1Bed": 875,
+  "unemploymentRate": 5,
+  "majorEmployers": [
+    "Boots",
+    "Experian",
+    "Capital One",
+    "E.ON",
+    "Speedo"
+  ]
+}

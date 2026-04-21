@@ -1,0 +1,17 @@
+{
+  "slug": "reading",
+  "name": "Reading",
+  "region": "South East",
+  "population": 230000,
+  "locationMultiplier": 1.12,
+  "costOfLivingIndex": 108,
+  "averageRent1Bed": 1425,
+  "unemploymentRate": 2.9,
+  "majorEmployers": [
+    "Microsoft",
+    "Oracle",
+    "Prudential",
+    "Huawei",
+    "PepsiCo"
+  ]
+}

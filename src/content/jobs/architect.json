@@ -1,0 +1,32 @@
+{
+  "slug": "architect",
+  "title": "Architect",
+  "alternativeTitles": [
+    "Senior Architect",
+    "Associate Architect",
+    "Project Architect"
+  ],
+  "category": "Construction",
+  "sectorCode": "2431",
+  "nationalMedianSalary": 48000,
+  "nationalLowerQuartile": 36000,
+  "nationalUpperQuartile": 65000,
+  "nationalMinimum": 28000,
+  "nationalMaximum": 110000,
+  "entryLevelSalary": 30000,
+  "seniorLevelSalary": 90000,
+  "requiredSkills": [
+    "ARB registration",
+    "RIBA Part 3",
+    "AutoCAD",
+    "Revit",
+    "Planning applications"
+  ],
+  "relatedJobs": [
+    "structural-engineer",
+    "project-manager"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

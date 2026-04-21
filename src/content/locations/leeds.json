@@ -1,0 +1,17 @@
+{
+  "slug": "leeds",
+  "name": "Leeds",
+  "region": "Yorkshire",
+  "population": 820000,
+  "locationMultiplier": 1,
+  "costOfLivingIndex": 84,
+  "averageRent1Bed": 975,
+  "unemploymentRate": 4.4,
+  "majorEmployers": [
+    "Asda",
+    "Sky",
+    "First Direct",
+    "NHS Digital",
+    "Lowell"
+  ]
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://salarydata.co.uk/sitemap-index.xml

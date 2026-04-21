@@ -1,0 +1,144 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import FAQ from '../../../components/FAQ.astro';
+import CVBuilderCTA from '../../../components/CVBuilderCTA.astro';
+import SalaryRangeChart from '../../../components/SalaryRangeChart.tsx';
+import TakeHomeCalculator from '../../../components/TakeHomeCalculator.tsx';
+import { buildBreadcrumbSchema, buildFaqSchema, buildOccupationSchema } from '../../../lib/schemaBuilder';
+import { formatGBP } from '../../../lib/ukTaxCalc';
+
+export async function getStaticPaths() {
+  const jobs = await getCollection('jobs');
+  return jobs.map((job) => ({ params: { job: job.data.slug }, props: { job: job.data } }));
+}
+
+const { job } = Astro.props;
+const locations = await getCollection('locations');
+const cityRows = locations
+  .map((l) => ({
+    slug: l.data.slug,
+    name: l.data.name,
+    median: Math.round(job.nationalMedianSalary * l.data.locationMultiplier),
+    lq: Math.round(job.nationalLowerQuartile * l.data.locationMultiplier),
+    uq: Math.round(job.nationalUpperQuartile * l.data.locationMultiplier),
+    diff: Math.round((l.data.locationMultiplier - 1) * 100),
+  }))
+  .sort((a, b) => b.median - a.median);
+
+const year = new Date().getFullYear();
+const url = `/salary/${job.slug}/`;
+const title = `${job.title} Salary UK ${year} | Average Pay by City & Experience`;
+const description = `Average ${job.title} salary in the UK is ${formatGBP(job.nationalMedianSalary)}. Compare pay across ${locations.length} UK cities, see salary by experience level, and calculate take-home pay.`;
+
+const faqs = [
+  {
+    question: `What is the average ${job.title} salary in the UK?`,
+    answer: `<p>The average UK ${job.title} salary is <strong>${formatGBP(job.nationalMedianSalary)} per year</strong> (ONS ${year - 1}). The lower quartile is ${formatGBP(job.nationalLowerQuartile)} and the upper quartile is ${formatGBP(job.nationalUpperQuartile)}.</p>`,
+  },
+  {
+    question: `Where do ${job.title}s earn the most in the UK?`,
+    answer: `<p>${job.title}s earn most in <strong>${cityRows[0].name}</strong> (${formatGBP(cityRows[0].median)} median), followed by ${cityRows[1].name} (${formatGBP(cityRows[1].median)}) and ${cityRows[2].name} (${formatGBP(cityRows[2].median)}). See the full city table above.</p>`,
+  },
+  {
+    question: `What qualifications does a ${job.title} need?`,
+    answer: `<p>Core skills and qualifications for ${job.title}s include: <strong>${job.requiredSkills.join(', ')}</strong>. Entry-level roles start at around ${formatGBP(job.entryLevelSalary)}; senior positions reach ${formatGBP(job.seniorLevelSalary)}+.</p>`,
+  },
+  {
+    question: `Is ${job.title} a good career in the UK?`,
+    answer: `<p>The career outlook for ${job.title}s is <strong>${job.growthOutlook}</strong>. Salaries have grown broadly in line with wage inflation, with experienced professionals in high-cost cities (London, Cambridge, Oxford) earning 15–30% above the UK median.</p>`,
+  },
+];
+
+const crumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Salaries', url: '/salary/' },
+  { name: job.title, url },
+];
+
+const schema = [
+  buildBreadcrumbSchema(crumbs),
+  buildFaqSchema(faqs.map((f) => ({ question: f.question, answer: f.answer.replace(/<[^>]+>/g, '') }))),
+  buildOccupationSchema({
+    name: `${job.title} (UK)`,
+    description: `${job.title} salary and career data for the United Kingdom.`,
+    occupationLocation: 'United Kingdom',
+    medianSalary: job.nationalMedianSalary,
+    lowerSalary: job.nationalLowerQuartile,
+    upperSalary: job.nationalUpperQuartile,
+    skills: job.requiredSkills,
+    url,
+  }),
+];
+---
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+
+    <section class="hero">
+      <h1>{job.title} Salary UK ({year})</h1>
+      <p>
+        The UK median {job.title} salary is <strong>{formatGBP(job.nationalMedianSalary)}</strong> per year.
+        Entry-level: {formatGBP(job.entryLevelSalary)} · Senior: {formatGBP(job.seniorLevelSalary)}.
+        Also known as: {job.alternativeTitles.join(', ')}.
+      </p>
+    </section>
+
+    <SalaryRangeChart
+      client:load
+      lowerQuartile={job.nationalLowerQuartile}
+      median={job.nationalMedianSalary}
+      upperQuartile={job.nationalUpperQuartile}
+      minimum={job.nationalMinimum}
+      maximum={job.nationalMaximum}
+      title="UK-wide salary distribution"
+    />
+
+    <h2>{job.title} salary by UK city</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>City</th>
+          <th>Lower quartile</th>
+          <th>Median</th>
+          <th>Upper quartile</th>
+          <th>vs UK avg</th>
+        </tr>
+      </thead>
+      <tbody>
+        {cityRows.map((c) => (
+          <tr>
+            <td><a href={`/salary/${job.slug}/${c.slug}/`}><strong>{c.name}</strong></a></td>
+            <td>{formatGBP(c.lq)}</td>
+            <td><strong>{formatGBP(c.median)}</strong></td>
+            <td>{formatGBP(c.uq)}</td>
+            <td style={c.diff >= 0 ? 'color:#15803d' : 'color:#b91c1c'}>
+              {c.diff >= 0 ? '+' : ''}{c.diff}%
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <TakeHomeCalculator client:visible defaultSalary={job.nationalMedianSalary} jobTitle={job.title} />
+
+    <CVBuilderCTA jobTitle={job.title} campaign={`${job.slug}-hub`} />
+
+    <h2>Core skills for {job.title}s</h2>
+    <ul class="skills">
+      {job.requiredSkills.map((s) => <li>{s}</li>)}
+    </ul>
+
+    <FAQ items={faqs} />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero { padding: 1.5rem 0 1rem; }
+  .skills { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; list-style: none; }
+  .skills li {
+    background: #e0f2fe; color: #075985; padding: .4rem .85rem;
+    border-radius: 999px; font-size: .9rem; font-weight: 500;
+  }
+</style>

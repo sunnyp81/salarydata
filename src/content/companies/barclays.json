@@ -1,0 +1,44 @@
+{
+  "slug": "barclays",
+  "name": "Barclays",
+  "sector": "Banking",
+  "ftseIndex": "FTSE 100",
+  "employeeCount": 85000,
+  "headquarters": "London",
+  "averageSalary": 72000,
+  "salaryByRole": [
+    {
+      "role": "Software Engineer",
+      "median": 65000,
+      "range": [
+        45000,
+        95000
+      ]
+    },
+    {
+      "role": "Investment Banker",
+      "median": 95000,
+      "range": [
+        62000,
+        180000
+      ]
+    },
+    {
+      "role": "Data Analyst",
+      "median": 48000,
+      "range": [
+        35000,
+        68000
+      ]
+    },
+    {
+      "role": "Risk Manager",
+      "median": 85000,
+      "range": [
+        60000,
+        135000
+      ]
+    }
+  ],
+  "lastUpdated": "2026-04-21"
+}

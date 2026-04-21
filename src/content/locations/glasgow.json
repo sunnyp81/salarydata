@@ -1,0 +1,17 @@
+{
+  "slug": "glasgow",
+  "name": "Glasgow",
+  "region": "Scotland",
+  "population": 1680000,
+  "locationMultiplier": 0.97,
+  "costOfLivingIndex": 82,
+  "averageRent1Bed": 925,
+  "unemploymentRate": 4.6,
+  "majorEmployers": [
+    "JPMorgan",
+    "Morgan Stanley",
+    "Barclays",
+    "NHS Scotland",
+    "BBC Scotland"
+  ]
+}

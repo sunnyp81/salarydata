@@ -1,0 +1,44 @@
+{
+  "slug": "unilever",
+  "name": "Unilever",
+  "sector": "Consumer Goods",
+  "ftseIndex": "FTSE 100",
+  "employeeCount": 128000,
+  "headquarters": "London",
+  "averageSalary": 58000,
+  "salaryByRole": [
+    {
+      "role": "Marketing Manager",
+      "median": 62000,
+      "range": [
+        42000,
+        92000
+      ]
+    },
+    {
+      "role": "Brand Manager",
+      "median": 65000,
+      "range": [
+        45000,
+        98000
+      ]
+    },
+    {
+      "role": "Financial Analyst",
+      "median": 52000,
+      "range": [
+        38000,
+        75000
+      ]
+    },
+    {
+      "role": "Data Analyst",
+      "median": 44000,
+      "range": [
+        32000,
+        62000
+      ]
+    }
+  ],
+  "lastUpdated": "2026-04-21"
+}

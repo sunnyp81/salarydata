@@ -1,0 +1,32 @@
+{
+  "slug": "risk-manager",
+  "title": "Risk Manager",
+  "alternativeTitles": [
+    "Credit Risk Manager",
+    "Operational Risk Manager",
+    "Market Risk Analyst"
+  ],
+  "category": "Finance",
+  "sectorCode": "3534",
+  "nationalMedianSalary": 68000,
+  "nationalLowerQuartile": 50000,
+  "nationalUpperQuartile": 92000,
+  "nationalMinimum": 38000,
+  "nationalMaximum": 150000,
+  "entryLevelSalary": 42000,
+  "seniorLevelSalary": 125000,
+  "requiredSkills": [
+    "Basel III",
+    "VaR",
+    "Stress testing",
+    "SQL",
+    "Python"
+  ],
+  "relatedJobs": [
+    "financial-analyst",
+    "compliance-officer"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

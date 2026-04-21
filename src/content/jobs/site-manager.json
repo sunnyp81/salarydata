@@ -1,0 +1,33 @@
+{
+  "slug": "site-manager",
+  "title": "Site Manager",
+  "alternativeTitles": [
+    "Construction Manager",
+    "Site Agent",
+    "Senior Site Manager"
+  ],
+  "category": "Construction",
+  "sectorCode": "1122",
+  "nationalMedianSalary": 55000,
+  "nationalLowerQuartile": 42000,
+  "nationalUpperQuartile": 72000,
+  "nationalMinimum": 32000,
+  "nationalMaximum": 110000,
+  "entryLevelSalary": 38000,
+  "seniorLevelSalary": 95000,
+  "requiredSkills": [
+    "CSCS",
+    "SMSTS",
+    "Programme management",
+    "Health & safety",
+    "Subcontractor coordination"
+  ],
+  "relatedJobs": [
+    "quantity-surveyor",
+    "project-manager",
+    "structural-engineer"
+  ],
+  "growthOutlook": "medium",
+  "source": "ONS ASHE",
+  "lastUpdated": "2026-04-21"
+}

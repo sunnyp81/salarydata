@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+const title = 'About SalaryData.co.uk';
+const description = 'SalaryData.co.uk publishes UK salary and job-market data drawn from ONS and Reed, updated regularly.';
+---
+<BaseLayout title={title} description={description}>
+  <div class="container" style="max-width:780px">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'About', url: '/about/' }]} />
+    <h1>About SalaryData</h1>
+    <p>
+      SalaryData.co.uk is a UK salary and job-market intelligence site. We publish median pay,
+      quartile ranges, experience bands and take-home calculators for hundreds of job titles
+      across every major UK city.
+    </p>
+    <p>
+      We don't ask for your email to see a salary. We don't charge for access. We monetise through
+      affiliate partnerships with Reed.co.uk (job listings) and TopCV (CV review service), which
+      never influences the data we publish.
+    </p>
+    <p>
+      Questions, corrections or data requests: <a href="/contact/">contact us</a>.
+    </p>
+  </div>
+</BaseLayout>
