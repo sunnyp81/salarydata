@@ -31,6 +31,7 @@ import { buildBreadcrumbSchema, buildFaqSchema, buildOccupationSchema } from '..
 import { reedJobsLink } from '../../../../lib/affiliateLinks';
 import { formatGBP } from '../../../../lib/ukTaxCalc';
 import { readReedCache } from '../../../../lib/cache';
+import { isMoneyPageIndexed } from '../../../../lib/publishConfig';
 
 export async function getStaticPaths() {
   const jobs = await getCollection('jobs');
@@ -86,6 +87,7 @@ const year = new Date().getFullYear();
 const title = `${job.title} Salary in ${location.name} ${year} | Average Pay & Take-Home`;
 const description = `${job.title} salary in ${location.name} averages ${formatGBP(adj.median)} (${formatGBP(adj.lowerQuartile)}–${formatGBP(adj.upperQuartile)} middle 50%). Take-home calculator, live jobs, regional comparison. Source: ONS ASHE.`;
 const url = `/salary/${job.slug}/${location.slug}/`;
+const noindex = !isMoneyPageIndexed(job.slug, location.slug);
 
 // Generated narrative blocks
 const intro = moneyPageIntro(job, location, adj);
@@ -148,7 +150,7 @@ const schema = [
   }),
 ];
 ---
-<BaseLayout title={title} description={description} canonical={new URL(url, Astro.site).toString()} schema={schema}>
+<BaseLayout title={title} description={description} canonical={new URL(url, Astro.site).toString()} schema={schema} noindex={noindex}>
   <div class="container">
     <Breadcrumbs items={crumbs} />
 
