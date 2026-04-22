@@ -2,7 +2,11 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import FAQ from '../../../components/FAQ.astro';
 import { formatGBP } from '../../../lib/ukTaxCalc';
+import { nearbyCities, topJobsInCity } from '../../../lib/onsData';
+import { cityIndustryNarrative, cityCostNarrative } from '../../../lib/copywriting';
+import { buildBreadcrumbSchema, buildFaqSchema } from '../../../lib/schemaBuilder';
 
 export async function getStaticPaths() {
   const locations = await getCollection('locations');
@@ -10,50 +14,116 @@ export async function getStaticPaths() {
 }
 
 const { location } = Astro.props;
-const jobs = await getCollection('jobs');
+const allLocations = await getCollection('locations');
+const allJobs = await getCollection('jobs');
 
-const rows = jobs
+const rows = allJobs
   .map((j) => ({
     slug: j.data.slug,
     title: j.data.title,
     category: j.data.category,
+    growth: j.data.growthOutlook,
     median: Math.round(j.data.nationalMedianSalary * location.locationMultiplier),
     lq: Math.round(j.data.nationalLowerQuartile * location.locationMultiplier),
     uq: Math.round(j.data.nationalUpperQuartile * location.locationMultiplier),
   }))
   .sort((a, b) => b.median - a.median);
 
+const top5InCity = topJobsInCity(allJobs, location, 5);
+const inDemand = top5InCity.filter((j) => j.growthOutlook === 'high').slice(0, 5);
+const inDemandFallback = inDemand.length >= 3 ? inDemand : top5InCity.slice(0, 5);
+
+const nearby = nearbyCities(allLocations, location, 4);
+const cmpData = nearby.map((n) => ({
+  name: n.name,
+  multiplier: n.locationMultiplier,
+  rent: n.averageRent1Bed,
+}));
+
 const year = new Date().getFullYear();
 const url = `/location/${location.slug}/`;
-const title = `${location.name} Salaries ${year} | Average Pay by Job`;
-const description = `Average salaries in ${location.name} by job title. ${location.name} pay is ${Math.round((location.locationMultiplier - 1) * 100)}% ${location.locationMultiplier >= 1 ? 'above' : 'below'} UK average. Cost of living index: ${location.costOfLivingIndex}.`;
+const title = `${location.name} Salaries ${year} | Average Pay by Job, Cost of Living, Job Market`;
+const description = `${location.name} pay sits ${Math.round((location.locationMultiplier - 1) * 100)}% ${location.locationMultiplier >= 1 ? 'above' : 'below'} the UK median. Cost-of-living index ${location.costOfLivingIndex}. Average rent ${formatGBP(location.averageRent1Bed)}/mo. Browse all 30 job salaries.`;
 
 const avgSalary = Math.round(rows.reduce((s, r) => s + r.median, 0) / rows.length);
+
+const faqs = [
+  {
+    question: `What is the average salary in ${location.name}?`,
+    answer: `<p>Across the 30 job titles tracked on this site, the average median pay in ${location.name} is <strong>${formatGBP(avgSalary)}</strong>. The highest-paid role is <strong>${rows[0].title}</strong> at ${formatGBP(rows[0].median)} median; the lowest is ${rows[rows.length - 1].title} at ${formatGBP(rows[rows.length - 1].median)}. ${location.name}'s pay multiplier is ${location.locationMultiplier.toFixed(2)}× the UK national median.</p>`,
+  },
+  {
+    question: `What's the cost of living like in ${location.name}?`,
+    answer: `<p>${location.name}'s cost-of-living index is <strong>${location.costOfLivingIndex}</strong> (UK average = 100). A one-bed flat rents for around ${formatGBP(location.averageRent1Bed)} per month. Use the cost-of-living-adjusted figures on individual job pages to compare offers in real purchasing-power terms rather than nominal pay.</p>`,
+  },
+  {
+    question: `Who are the major employers in ${location.name}?`,
+    answer: `<p>${location.majorEmployers.join(', ')} are among the largest employers in ${location.name}. They tend to set the floor for white-collar pay locally — smaller firms often benchmark their offers against this group, while specialist or in-demand roles can command a premium above the local market.</p>`,
+  },
+  {
+    question: `What's the unemployment rate in ${location.name}?`,
+    answer: `<p>Unemployment in ${location.name} runs at around <strong>${location.unemploymentRate}%</strong>. As a rough rule of thumb, sub-4% means employers compete for skilled hires (which favours candidates on pay); above 5% tilts pricing power back to employers and tends to slow real-wage growth.</p>`,
+  },
+];
+
 const crumbs = [
   { name: 'Home', url: '/' },
-  { name: 'Locations', url: '/salary/' },
+  { name: 'Locations', url: '/location/' },
   { name: location.name, url },
 ];
+
+const schema = [
+  buildBreadcrumbSchema(crumbs),
+  buildFaqSchema(faqs.map((f) => ({ question: f.question, answer: f.answer.replace(/<[^>]+>/g, '') }))),
+];
+
+const industryNarrative = cityIndustryNarrative(location, top5InCity.map((j) => ({
+  title: j.title,
+  median: Math.round(j.nationalMedianSalary * location.locationMultiplier),
+})));
+const costNarrative = cityCostNarrative(location, cmpData);
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} schema={schema}>
   <div class="container">
     <Breadcrumbs items={crumbs} />
     <h1>Salaries in {location.name} ({year})</h1>
-    <p>
-      {location.name} ({location.region}) has an average salary multiplier of
-      <strong>{location.locationMultiplier.toFixed(2)}×</strong> the UK national median,
-      a cost-of-living index of <strong>{location.costOfLivingIndex}</strong> and unemployment of <strong>{location.unemploymentRate}%</strong>.
-      Major employers include {location.majorEmployers.join(', ')}.
+    <p class="lead">
+      ${location.name} pays a {location.locationMultiplier === 1 ? 'national-average' : `${(location.locationMultiplier).toFixed(2)}× UK-median`} salary across the roles tracked on this site, with a cost-of-living index of {location.costOfLivingIndex} and headline unemployment of {location.unemploymentRate}%.
     </p>
 
     <div class="stats">
-      <div><span>Average salary</span><strong>{formatGBP(avgSalary)}</strong></div>
-      <div><span>Cost of living index</span><strong>{location.costOfLivingIndex}</strong></div>
+      <div><span>Average median salary</span><strong>{formatGBP(avgSalary)}</strong></div>
+      <div><span>Pay multiplier</span><strong>{location.locationMultiplier.toFixed(2)}×</strong></div>
+      <div><span>Cost-of-living index</span><strong>{location.costOfLivingIndex}</strong></div>
       <div><span>Average 1-bed rent</span><strong>{formatGBP(location.averageRent1Bed)}/mo</strong></div>
       <div><span>Unemployment</span><strong>{location.unemploymentRate}%</strong></div>
+      <div><span>Region</span><strong>{location.region}</strong></div>
     </div>
 
-    <h2>Salaries by job in {location.name}</h2>
+    <h2>The {location.name} employer mix and what it means for pay</h2>
+    <div set:html={industryNarrative} />
+
+    <h2>Cost of living, rent and salary negotiation in {location.name}</h2>
+    <div set:html={costNarrative} />
+
+    <h2>Most in-demand jobs in {location.name}</h2>
+    <p>
+      The roles below combine strong pay with a high or rising hiring outlook in the UK
+      labour market — the kind of jobs where employers are typically chasing candidates rather
+      than the other way round.
+    </p>
+    <ul class="related">
+      {inDemandFallback.map((j) => (
+        <li>
+          <a href={`/salary/${j.slug}/${location.slug}/`}>
+            <strong>{j.title}</strong>
+            <span>{formatGBP(Math.round(j.nationalMedianSalary * location.locationMultiplier))} median · {j.growthOutlook} growth outlook</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <h2>All {location.name} salaries by job title</h2>
     <table>
       <thead>
         <tr>
@@ -76,16 +146,47 @@ const crumbs = [
         ))}
       </tbody>
     </table>
+
+    {nearby.length > 0 && (
+      <>
+        <h2>Cities near {location.name}</h2>
+        <p>
+          If you're comparing {location.name} against neighbouring labour markets — for commuting reach,
+          relocation or remote-hybrid trade-offs — these cities sit closest in pay and geography.
+        </p>
+        <ul class="related">
+          {nearby.map((n) => (
+            <li>
+              <a href={`/location/${n.slug}/`}>
+                <strong>{n.name}</strong>
+                <span>{n.region} · {n.locationMultiplier.toFixed(2)}× UK avg · {formatGBP(n.averageRent1Bed)} rent</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    <FAQ items={faqs} />
   </div>
 </BaseLayout>
 
 <style>
+  .lead { font-size: 1.05rem; color: var(--c-ink); max-width: 70ch; }
   .stats {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem;
     margin: 1.5rem 0; padding: 1.25rem; background: #f8fafc;
     border: 1px solid #e2e8f0; border-radius: 12px;
   }
   .stats > div { display: flex; flex-direction: column; }
   .stats span { font-size: .8rem; color: var(--c-muted); }
-  .stats strong { font-size: 1.25rem; color: var(--c-ink); }
+  .stats strong { font-size: 1.2rem; color: var(--c-ink); }
+  .related { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .6rem; }
+  .related li a {
+    display: flex; flex-direction: column; gap: .2rem;
+    padding: .85rem 1.1rem; background: #f8fafc; border: 1px solid #e2e8f0;
+    border-radius: 10px; color: var(--c-ink);
+  }
+  .related li a:hover { background: #fff; border-color: var(--c-accent); text-decoration: none; }
+  .related li span { color: var(--c-muted); font-size: .88rem; }
 </style>

@@ -8,6 +8,7 @@ import SalaryRangeChart from '../../../components/SalaryRangeChart.tsx';
 import TakeHomeCalculator from '../../../components/TakeHomeCalculator.tsx';
 import { buildBreadcrumbSchema, buildFaqSchema, buildOccupationSchema } from '../../../lib/schemaBuilder';
 import { formatGBP } from '../../../lib/ukTaxCalc';
+import { jobHubMarketNarrative } from '../../../lib/copywriting';
 
 export async function getStaticPaths() {
   const jobs = await getCollection('jobs');
@@ -94,6 +95,9 @@ const schema = [
       maximum={job.nationalMaximum}
       title="UK-wide salary distribution"
     />
+
+    <h2>{job.title} hiring market in the UK</h2>
+    <div set:html={jobHubMarketNarrative(job, cityRows[0].name, cityRows[0].median)} />
 
     <h2>{job.title} salary by UK city</h2>
     <table>

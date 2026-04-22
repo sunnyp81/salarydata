@@ -51,16 +51,55 @@ const schemaArray = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <main><slot /></main>
     <footer class="site-footer">
       <div class="container">
-        <p>
-          <strong>SalaryData.co.uk</strong> — UK salary data from ONS Annual Survey of Hours and Earnings.
-          Take-home pay calculations for tax year 2024/25. Not financial advice.
+        <div class="footer-cols">
+          <div>
+            <h4>Top jobs</h4>
+            <ul>
+              <li><a href="/salary/software-engineer/">Software Engineer</a></li>
+              <li><a href="/salary/product-manager/">Product Manager</a></li>
+              <li><a href="/salary/data-analyst/">Data Analyst</a></li>
+              <li><a href="/salary/marketing-manager/">Marketing Manager</a></li>
+              <li><a href="/salary/accountant/">Accountant</a></li>
+              <li><a href="/salary/nurse/">Nurse</a></li>
+              <li><a href="/salary/solicitor/">Solicitor</a></li>
+              <li><a href="/salary/">All 30 jobs →</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Top cities</h4>
+            <ul>
+              <li><a href="/location/london/">London</a></li>
+              <li><a href="/location/manchester/">Manchester</a></li>
+              <li><a href="/location/birmingham/">Birmingham</a></li>
+              <li><a href="/location/edinburgh/">Edinburgh</a></li>
+              <li><a href="/location/bristol/">Bristol</a></li>
+              <li><a href="/location/leeds/">Leeds</a></li>
+              <li><a href="/location/cambridge/">Cambridge</a></li>
+              <li><a href="/location/">All 20 cities →</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Tools</h4>
+            <ul>
+              <li><a href="/salary-calculator/">Take-home calculator</a></li>
+              <li><a href="/company/">Company salaries</a></li>
+              <li><a href="/methodology/">Methodology</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>About</h4>
+            <ul>
+              <li><a href="/about/">About SalaryData</a></li>
+              <li><a href="/contact/">Contact</a></li>
+              <li><a href="/privacy/">Privacy</a></li>
+            </ul>
+          </div>
+        </div>
+        <p class="footer-fineprint">
+          <strong>SalaryData.co.uk</strong> — UK salary data drawn from the ONS Annual Survey of
+          Hours and Earnings, with take-home pay calculations for tax year 2024/25 (England, Wales
+          and Northern Ireland). Figures are guidance, not financial advice.
         </p>
-        <nav>
-          <a href="/about/">About</a> ·
-          <a href="/methodology/">Methodology</a> ·
-          <a href="/privacy/">Privacy</a> ·
-          <a href="/contact/">Contact</a>
-        </nav>
       </div>
     </footer>
     <style is:global>
@@ -109,11 +148,17 @@ const schemaArray = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       .site-header nav a { color: var(--c-ink); font-weight: 500; font-size: .95rem; }
       .site-footer {
         border-top: 1px solid var(--c-faint);
-        padding: 2rem 0 3rem; margin-top: 4rem;
+        padding: 2.5rem 0 3rem; margin-top: 4rem;
         background: #f8fafc; color: var(--c-muted);
         font-size: .9rem;
       }
-      .site-footer nav { display: flex; gap: .75rem; flex-wrap: wrap; }
+      .footer-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+      .footer-cols h4 { font-size: .85rem; color: var(--c-ink); text-transform: uppercase; letter-spacing: .05em; margin: 0 0 .65rem; }
+      .footer-cols ul { list-style: none; padding: 0; margin: 0; }
+      .footer-cols li { padding: .2rem 0; }
+      .footer-cols li a { color: var(--c-muted); font-size: .9rem; }
+      .footer-cols li a:hover { color: var(--c-accent); }
+      .footer-fineprint { padding-top: 1.5rem; border-top: 1px solid var(--c-faint); font-size: .85rem; }
       table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; }
       th, td { padding: .65rem .85rem; text-align: left; border-bottom: 1px solid var(--c-faint); }
       th { background: #f8fafc; font-weight: 600; font-size: .9rem; color: var(--c-muted); }

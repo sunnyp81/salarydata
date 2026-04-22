@@ -3,14 +3,20 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { formatGBP } from '../lib/ukTaxCalc';
 import { buildWebsiteSchema, buildOrganizationSchema } from '../lib/schemaBuilder';
+import { highestPayingCitiesFor } from '../lib/onsData';
 
 const jobs = (await getCollection('jobs')).sort((a, b) => b.data.nationalMedianSalary - a.data.nationalMedianSalary);
-const locations = (await getCollection('locations')).sort((a, b) => b.data.population - a.data.population);
-const topJobs = jobs.slice(0, 8);
-const topCities = locations.slice(0, 12);
+const locations = (await getCollection('locations')).sort((a, b) => b.data.locationMultiplier - a.data.locationMultiplier);
+const top10Jobs = jobs.slice(0, 10);
+const top10Cities = locations.slice(0, 10);
 
+// Reference job for "highest-paying cities for [job]" table — pick Software Engineer
+const referenceJob = jobs.find((j) => j.data.slug === 'software-engineer')?.data ?? jobs[0].data;
+const topCitiesForRef = highestPayingCitiesFor(referenceJob, await getCollection('locations'), 10);
+
+const totalPageEstimate = jobs.length * locations.length;
 const title = 'UK Salary Data — Average Pay, Take-Home Calculator & Job Market Intelligence';
-const description = 'Average UK salaries by job title and city. Free take-home pay calculator for the 2024/25 tax year. Data from ONS Annual Survey of Hours and Earnings.';
+const description = `UK salary data for ${jobs.length} job titles across ${locations.length} cities. Free 2024/25 take-home pay calculator. Source: ONS Annual Survey of Hours and Earnings.`;
 
 const schema = [buildWebsiteSchema(), buildOrganizationSchema()];
 ---
@@ -18,8 +24,11 @@ const schema = [buildWebsiteSchema(), buildOrganizationSchema()];
   <section class="hero container">
     <h1>UK salary data — by job, city and employer</h1>
     <p class="lead">
-      Average pay, salary ranges, and take-home calculator for {jobs.length * locations.length}+ job and city combinations.
-      Source: ONS Annual Survey of Hours and Earnings. Tax year 2024/25.
+      The median UK full-time salary sits at £35,000. The figures on this site break that down
+      role by role and city by city, so you can see the actual range for {jobs.length} jobs across
+      {locations.length} UK cities — plus what the take-home looks like after 2024/25 income tax,
+      National Insurance, student loan and pension. All numbers are from ONS Annual Survey of
+      Hours and Earnings, adjusted for the regional pay differential.
     </p>
     <div class="cta">
       <a href="/salary-calculator/" class="btn">Calculate take-home pay</a>
@@ -28,74 +37,152 @@ const schema = [buildWebsiteSchema(), buildOrganizationSchema()];
   </section>
 
   <section class="container">
-    <h2>Top UK job salaries</h2>
-    <div class="grid grid-2col">
-      {topJobs.map((j) => (
-        <a href={`/salary/${j.data.slug}/`} class="card">
-          <div>
-            <strong>{j.data.title}</strong>
-            <span class="category">{j.data.category}</span>
-          </div>
-          <div class="salary">
-            <strong>{formatGBP(j.data.nationalMedianSalary)}</strong>
-            <span>median UK salary</span>
-          </div>
-        </a>
-      ))}
-    </div>
-    <p><a href="/salary/">See all {jobs.length} job salaries →</a></p>
+    <h2>Highest-paying jobs in the UK</h2>
+    <p>
+      Ranked by national median gross pay. Figures are full-time annual base salary; bonuses, equity
+      and overtime are excluded — total compensation in some of these roles can be 30–100% higher.
+    </p>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Job</th><th>Category</th><th>Median</th><th>Upper quartile</th></tr>
+      </thead>
+      <tbody>
+        {top10Jobs.map((j, i) => (
+          <tr>
+            <td>{i + 1}</td>
+            <td><a href={`/salary/${j.data.slug}/`}><strong>{j.data.title}</strong></a></td>
+            <td>{j.data.category}</td>
+            <td><strong>{formatGBP(j.data.nationalMedianSalary)}</strong></td>
+            <td>{formatGBP(j.data.nationalUpperQuartile)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </section>
 
   <section class="container">
-    <h2>Top UK cities for work</h2>
-    <div class="grid grid-3col">
-      {topCities.map((l) => (
-        <a href={`/location/${l.data.slug}/`} class="card city">
-          <strong>{l.data.name}</strong>
-          <span>{l.data.region} · {l.data.locationMultiplier.toFixed(2)}× UK avg</span>
-        </a>
-      ))}
-    </div>
+    <h2>Highest-paying UK cities (across all roles)</h2>
+    <p>
+      Ranked by the regional pay multiplier applied to UK national medians. Higher multipliers mean
+      the same job pays more in nominal pounds — though cost of living often eats some or all of the
+      premium. Click into a city to see how its cost-of-living index compares.
+    </p>
+    <table>
+      <thead>
+        <tr><th>#</th><th>City</th><th>Region</th><th>Pay multiplier</th><th>Cost-of-living index</th></tr>
+      </thead>
+      <tbody>
+        {top10Cities.map((l, i) => (
+          <tr>
+            <td>{i + 1}</td>
+            <td><a href={`/location/${l.data.slug}/`}><strong>{l.data.name}</strong></a></td>
+            <td>{l.data.region}</td>
+            <td><strong>{l.data.locationMultiplier.toFixed(2)}×</strong></td>
+            <td>{l.data.costOfLivingIndex}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="container">
+    <h2>Where {referenceJob.title.toLowerCase()}s earn the most in the UK</h2>
+    <p>
+      As an example of how the city × job tables work, here are the 10 best-paying UK cities for
+      {referenceJob.title.toLowerCase()}s. The same comparison runs on every job hub page.
+    </p>
+    <table>
+      <thead>
+        <tr><th>#</th><th>City</th><th>Median {referenceJob.title.toLowerCase()} salary</th><th>vs UK avg</th></tr>
+      </thead>
+      <tbody>
+        {topCitiesForRef.map((c, i) => (
+          <tr>
+            <td>{i + 1}</td>
+            <td><a href={`/salary/${referenceJob.slug}/${c.slug}/`}><strong>{c.name}</strong></a> <span style="color:var(--c-muted)">· {c.region}</span></td>
+            <td><strong>{formatGBP(c.median)}</strong></td>
+            <td style={c.diff >= 0 ? 'color:#15803d' : 'color:#b91c1c'}>{c.diff >= 0 ? '+' : ''}{c.diff}%</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </section>
 
   <section class="container methodology">
-    <h2>Our methodology</h2>
+    <h2>How we calculate these figures</h2>
     <p>
-      Every salary figure on SalaryData.co.uk starts from the Office for National Statistics (ONS)
-      Annual Survey of Hours and Earnings — the official UK earnings dataset covering 1% of all HMRC
-      PAYE records. We apply regional pay multipliers (based on ONS regional median gross pay) and
-      publish lower quartile, median, and upper quartile figures so you see the full earnings spread,
-      not just an average.
+      Every salary figure starts from the Office for National Statistics Annual Survey of Hours and
+      Earnings — the official UK earnings dataset, drawn from a 1% sample of HMRC PAYE records. We
+      use the full-time employee distribution and publish lower quartile, median and upper quartile
+      figures together so you see the full earnings spread, not a single point estimate.
     </p>
     <p>
-      Take-home pay calculations use the current 2024/25 tax-year thresholds for England, Wales and
-      Northern Ireland, including income tax bands, Class 1 NI, student loan plans 1/2/4/5 and
-      postgraduate, and salary-sacrifice pension contributions. Scottish tax bands differ and are
-      not applied by the standard calculator.
+      Regional pay is adjusted using ONS regional median gross pay tables — a separate dataset to
+      ASHE that captures the local wage premium or discount versus the UK average. London sits at
+      roughly 1.28× the UK median; Reading and Cambridge near 1.12–1.15×; Liverpool, Belfast and
+      Newcastle below 0.95×. These are derived multipliers, not direct local samples for every
+      job — the assumption being that a {referenceJob.title.toLowerCase()} in Manchester earns
+      Manchester's wage discount applied to the national {referenceJob.title.toLowerCase()} median.
+      It's a reasonable first approximation, particularly where local sample sizes are too thin
+      to publish ASHE directly.
     </p>
+    <p>
+      Take-home calculations apply 2024/25 thresholds for England, Wales and Northern Ireland:
+      personal allowance £12,570 (tapered above £100,000), basic rate 20% to £50,270, higher rate
+      40% to £125,140, additional rate 45% above. National Insurance is 8% on £12,570–£50,270 and
+      2% above. Student loans (plans 1, 2, 4, 5 and postgraduate) and pension contributions are
+      handled in the calculator. Scottish income tax bands differ and are not currently applied.
+    </p>
+    <p>
+      The site doesn't gate any data behind email signup. We monetise via affiliate links to Reed
+      (job listings) and TopCV (CV review), which never affects which numbers are published.
+      <a href="/methodology/">Full methodology page</a>.
+    </p>
+  </section>
+
+  <section class="container">
+    <h2>Browse all {jobs.length} jobs and {locations.length} cities</h2>
+    <p>
+      All {totalPageEstimate}+ job × city combinations are indexed and crawlable — pick a job
+      to see pay across every UK city, or pick a city to see the full salary table for that location.
+    </p>
+    <div class="link-cols">
+      <div>
+        <h3>By job</h3>
+        <ul>
+          {jobs.map((j) => <li><a href={`/salary/${j.data.slug}/`}>{j.data.title}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <h3>By city</h3>
+        <ul>
+          {locations.map((l) => <li><a href={`/location/${l.data.slug}/`}>{l.data.name}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <h3>Tools</h3>
+        <ul>
+          <li><a href="/salary-calculator/">UK take-home pay calculator</a></li>
+          <li><a href="/salary/">All salary pages</a></li>
+          <li><a href="/location/">All city pages</a></li>
+          <li><a href="/company/">Company salaries</a></li>
+          <li><a href="/methodology/">Methodology</a></li>
+        </ul>
+      </div>
+    </div>
   </section>
 </BaseLayout>
 
 <style>
-  .hero { padding: 3rem 1.25rem 2rem; text-align: center; }
+  .hero { padding: 3rem 1.25rem 2rem; }
   .hero h1 { font-size: clamp(2rem, 5vw, 3rem); }
-  .lead { font-size: 1.1rem; color: var(--c-muted); max-width: 640px; margin: 0 auto 1.5rem; }
-  .cta { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
-  .grid { display: grid; gap: .75rem; margin: 1rem 0 2rem; }
-  .grid-2col { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-  .grid-3col { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-  .card {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1rem 1.25rem; background: #f8fafc; border: 1px solid #e2e8f0;
-    border-radius: 12px; color: var(--c-ink); gap: 1rem;
-  }
-  .card:hover { background: #fff; border-color: var(--c-accent); text-decoration: none; }
-  .card strong { display: block; font-size: 1.05rem; margin-bottom: .2rem; }
-  .card .category { color: var(--c-muted); font-size: .85rem; }
-  .card .salary { text-align: right; }
-  .card .salary strong { color: var(--c-accent); font-size: 1.1rem; }
-  .card .salary span { color: var(--c-muted); font-size: .8rem; }
-  .card.city { flex-direction: column; align-items: flex-start; }
-  .card.city span { color: var(--c-muted); font-size: .85rem; }
-  .methodology { max-width: 780px; margin: 2rem auto; }
+  .lead { font-size: 1.1rem; color: var(--c-ink); max-width: 70ch; margin: 0 0 1.5rem; }
+  .cta { display: flex; gap: .75rem; flex-wrap: wrap; }
+  .methodology { max-width: 780px; }
+  .methodology p { color: var(--c-ink); }
+  .link-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin: 1rem 0 2rem; }
+  .link-cols h3 { font-size: 1rem; color: var(--c-muted); text-transform: uppercase; letter-spacing: .05em; margin: 0 0 .5rem; }
+  .link-cols ul { list-style: none; padding: 0; margin: 0; }
+  .link-cols li { padding: .25rem 0; border-bottom: 1px solid #f1f5f9; }
+  .link-cols li a { color: var(--c-ink); font-size: .92rem; }
 </style>
