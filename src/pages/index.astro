@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { formatGBP } from '../lib/ukTaxCalc';
-import { buildWebsiteSchema, buildOrganizationSchema } from '../lib/schemaBuilder';
+import { buildWebsiteSchema, buildOrganizationSchema, buildEditorPersonSchema } from '../lib/schemaBuilder';
 import { highestPayingCitiesFor } from '../lib/onsData';
 
 const jobs = (await getCollection('jobs')).sort((a, b) => b.data.nationalMedianSalary - a.data.nationalMedianSalary);
@@ -18,7 +18,7 @@ const totalPageEstimate = jobs.length * locations.length;
 const title = 'UK Salary Data — Average Pay, Take-Home Calculator & Job Market Intelligence';
 const description = `UK salary data for ${jobs.length} job titles across ${locations.length} cities. Free 2024/25 take-home pay calculator. Source: ONS Annual Survey of Hours and Earnings.`;
 
-const schema = [buildWebsiteSchema(), buildOrganizationSchema()];
+const schema = [buildWebsiteSchema(), buildOrganizationSchema(), buildEditorPersonSchema()];
 ---
 <BaseLayout title={title} description={description} schema={schema}>
   <section class="hero container">

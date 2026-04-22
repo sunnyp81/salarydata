@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = 'Page not found · SalaryData';
+const description = 'The page you tried to reach doesn\'t exist on SalaryData.co.uk. Try one of the popular pages below or use the directory.';
+---
+<BaseLayout title={title} description={description}>
+  <div class="container" style="max-width:780px; padding-top:3rem; padding-bottom:5rem">
+    <p class="kicker">404</p>
+    <h1>That page doesn't exist on SalaryData.</h1>
+    <p class="lead">
+      Either the URL was mistyped or the page has been renamed. Try one of the popular destinations
+      below, browse the full <a href="/directory/">site directory</a>, or use the navigation at the
+      top of the page.
+    </p>
+
+    <div class="grid">
+      <div>
+        <h3>Popular salary pages</h3>
+        <ul>
+          <li><a href="/salary/software-engineer/">Software Engineer salary UK</a></li>
+          <li><a href="/salary/data-analyst/">Data Analyst salary UK</a></li>
+          <li><a href="/salary/nurse/">Nurse salary UK</a></li>
+          <li><a href="/salary/marketing-manager/">Marketing Manager salary UK</a></li>
+          <li><a href="/salary/accountant/">Accountant salary UK</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Popular cities</h3>
+        <ul>
+          <li><a href="/location/london/">Salaries in London</a></li>
+          <li><a href="/location/manchester/">Salaries in Manchester</a></li>
+          <li><a href="/location/edinburgh/">Salaries in Edinburgh</a></li>
+          <li><a href="/location/bristol/">Salaries in Bristol</a></li>
+          <li><a href="/location/cambridge/">Salaries in Cambridge</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Tools</h3>
+        <ul>
+          <li><a href="/salary-calculator/">UK take-home pay calculator</a></li>
+          <li><a href="/salary/">All salary pages</a></li>
+          <li><a href="/location/">All city pages</a></li>
+          <li><a href="/methodology/">Methodology</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .kicker {
+    font-family: var(--font-body); font-size: .8rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .12em; color: var(--ink-3);
+    margin: 0 0 .75rem;
+  }
+  h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 1rem; }
+  .lead { font-size: 1.1rem; color: var(--ink-2); max-width: 60ch; margin: 0 0 2.5rem; }
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+  .grid h3 {
+    font-family: var(--font-body);
+    font-size: .75rem; color: var(--ink-3); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .65rem;
+  }
+  .grid ul { list-style: none; padding: 0; margin: 0; }
+  .grid li { padding: .3rem 0; }
+  .grid li a { color: var(--ink-2); font-size: .92rem; border: 0; }
+  .grid li a:hover { color: var(--ink-1); }
+</style>

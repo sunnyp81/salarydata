@@ -1,25 +1,136 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-const title = 'About SalaryData.co.uk';
-const description = 'SalaryData.co.uk publishes UK salary and job-market data drawn from ONS and Reed, updated regularly.';
+
+const title = 'About SalaryData.co.uk — Who We Are and How We Work';
+const description = 'SalaryData is an independent UK salary data publication edited by Sunny Patel, built on ONS Annual Survey of Hours and Earnings data with transparent regional adjustment methodology.';
+
+// Person + AboutPage + Organization schema for E-E-A-T
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: title,
+    description,
+    url: 'https://salarydata.co.uk/about/',
+    mainEntity: {
+      '@type': 'Organization',
+      '@id': 'https://salarydata.co.uk/#organization',
+      name: 'SalaryData',
+      url: 'https://salarydata.co.uk',
+      logo: 'https://salarydata.co.uk/logo.svg',
+      description: 'UK salary data and take-home pay calculator, sourced from ONS Annual Survey of Hours and Earnings.',
+      foundingDate: '2026-04-22',
+      founder: { '@id': 'https://salarydata.co.uk/about/#editor' },
+      sameAs: [],
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': 'https://salarydata.co.uk/about/#editor',
+    name: 'Sunny Patel',
+    jobTitle: 'Editor',
+    url: 'https://salarydata.co.uk/about/',
+    description: 'SEO consultant and data-site operator with ten-plus years building UK-focused information products.',
+    worksFor: { '@id': 'https://salarydata.co.uk/#organization' },
+    knowsAbout: [
+      'UK labour market',
+      'ONS Annual Survey of Hours and Earnings',
+      'UK income tax 2024/25',
+      'National Insurance',
+      'Regional pay differentials',
+      'Programmatic SEO',
+    ],
+    sameAs: [
+      'https://sunnypatel.co.uk',
+      'https://www.linkedin.com/in/sunnypatelseo',
+    ],
+  },
+];
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} schema={schema}>
   <div class="container" style="max-width:780px">
     <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'About', url: '/about/' }]} />
     <h1>About SalaryData</h1>
-    <p>
-      SalaryData.co.uk is a UK salary and job-market intelligence site. We publish median pay,
-      quartile ranges, experience bands and take-home calculators for hundreds of job titles
-      across every major UK city.
+
+    <p class="lead">
+      SalaryData is an independent UK salary data publication. Every figure on the site traces
+      back to a named source, every calculation is reproducible from published methodology, and
+      nothing is gated behind email signup or a paywall.
     </p>
+
+    <h2>What we publish</h2>
     <p>
-      We don't ask for your email to see a salary. We don't charge for access. We monetise through
-      affiliate partnerships with Reed.co.uk (job listings) and TopCV (CV review service), which
-      never influences the data we publish.
+      Median pay, quartile ranges and experience bands for 30 UK job titles across 20 cities,
+      refreshed annually when the ONS publishes new Annual Survey of Hours and Earnings data.
+      Every salary page links the underlying ONS bulletin and documents the regional multiplier
+      applied. The take-home pay calculator uses the current 2024/25 income-tax bands, National
+      Insurance thresholds and student-loan plan repayment rates for England, Wales and Northern
+      Ireland.
     </p>
+
+    <h2>Editor</h2>
+    <div class="author-card">
+      <div class="author-meta">
+        <h3 id="editor">Sunny Patel</h3>
+        <p class="author-title">Editor, SalaryData.co.uk</p>
+      </div>
+      <p>
+        Sunny is the editor of SalaryData and the operator of a portfolio of UK-focused data
+        publications including <a href="https://sunnypatel.co.uk" rel="noopener">sunnypatel.co.uk</a>.
+        His background is in programmatic SEO, technical content operations and data-product
+        design; he's been building UK information products professionally for more than a decade.
+      </p>
+      <p>
+        He does not accept payment to alter published salary figures, and SalaryData does not
+        participate in sponsored-content arrangements.
+        Contact: <a href="/contact/">/contact/</a>.
+      </p>
+    </div>
+
+    <h2>Editorial standards</h2>
+    <ul class="standards">
+      <li><strong>Primary-source first.</strong> Salary base figures come from ONS Annual Survey of Hours and Earnings (the 1% HMRC PAYE sample). We do not republish employer self-reported data (Glassdoor, Indeed) as our base figure — those are useful cross-checks, not the source of truth.</li>
+      <li><strong>Reproducible methodology.</strong> Every adjustment applied to the raw ONS figure (regional multiplier, cost-of-living index, experience banding) is documented on the <a href="/methodology/">methodology page</a>. If you can't reproduce a figure from our stated method and the published ONS data, we consider that a reporting error and will correct it.</li>
+      <li><strong>Tax-year accuracy.</strong> Take-home calculations always reflect the current UK tax year. The 2024/25 calculator applies on this site from 6 April 2024. We update rates within two weeks of HMRC publishing new thresholds.</li>
+      <li><strong>Corrections, not silent edits.</strong> Material errors are corrected with a dated note on the affected page. We do not silently overwrite figures.</li>
+      <li><strong>Affiliate disclosure.</strong> We earn commission on Reed job-listing clicks and TopCV / CV-Library CV review sign-ups. Affiliate relationships never influence which numbers we publish — base figures come from ONS regardless.</li>
+    </ul>
+
+    <h2>How SalaryData makes money</h2>
     <p>
-      Questions, corrections or data requests: <a href="/contact/">contact us</a>.
+      Revenue comes from two affiliate relationships: Reed.co.uk (per-click payment when users
+      visit a live job listing from a salary page) and TopCV / CV-Library (per-signup payment
+      for CV-review services). No subscriptions, no gated content, no email capture required to
+      see any figure on the site.
+    </p>
+
+    <h2>Corrections and data requests</h2>
+    <p>
+      If you spot an error, have access to a more recent ONS dataset, or run a UK employer and
+      want your published salary bands checked against real data, get in touch via the
+      <a href="/contact/">contact page</a>. Corrections are typically applied within 48 hours.
     </p>
   </div>
 </BaseLayout>
+
+<style>
+  .lead { font-size: 1.1rem; color: var(--ink-2); max-width: 62ch; }
+  .author-card {
+    background: var(--surface-1); border: 1px solid var(--rule);
+    border-left: 3px solid var(--ink-1);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    padding: 1.5rem 1.75rem; margin: 1rem 0 2rem;
+  }
+  .author-meta { margin-bottom: .75rem; }
+  .author-meta h3 { margin: 0 0 .15rem; font-size: 1.3rem; }
+  .author-title {
+    font-family: var(--font-body); font-size: .82rem;
+    color: var(--ink-3); font-weight: 500;
+    text-transform: uppercase; letter-spacing: .06em; margin: 0 0 .75rem;
+  }
+  .standards { padding-left: 1.2rem; margin: 1rem 0 2rem; }
+  .standards li { margin-bottom: .75rem; color: var(--ink-2); line-height: 1.65; }
+  .standards strong { color: var(--ink-1); }
+</style>

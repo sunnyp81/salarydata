@@ -90,9 +90,37 @@ export function buildOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': `${SITE}/#organization`,
     name: 'SalaryData',
     url: SITE,
     logo: `${SITE}/logo.svg`,
+    description: 'UK salary data and take-home pay calculator, sourced from ONS Annual Survey of Hours and Earnings.',
+    foundingDate: '2026-04-22',
+    founder: { '@id': `${SITE}/about/#editor` },
     sameAs: [],
+  };
+}
+
+export function buildEditorPersonSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${SITE}/about/#editor`,
+    name: 'Sunny Patel',
+    jobTitle: 'Editor',
+    url: `${SITE}/about/`,
+    description: 'SEO consultant and data-site operator with ten-plus years building UK-focused information products.',
+    worksFor: { '@id': `${SITE}/#organization` },
+    knowsAbout: [
+      'UK labour market',
+      'ONS Annual Survey of Hours and Earnings',
+      'UK income tax 2024/25',
+      'National Insurance',
+      'Regional pay differentials',
+    ],
+    sameAs: [
+      'https://sunnypatel.co.uk',
+      'https://www.linkedin.com/in/sunnypatelseo',
+    ],
   };
 }

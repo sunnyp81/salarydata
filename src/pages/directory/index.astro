@@ -1,0 +1,130 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { formatGBP } from '../../lib/ukTaxCalc';
+
+const jobs = (await getCollection('jobs')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+const locations = (await getCollection('locations')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+const companies = (await getCollection('companies')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const totalCombos = jobs.length * locations.length;
+
+const title = 'Site Directory — Every SalaryData Page';
+const description = `Complete A-Z index of every page on SalaryData.co.uk: ${jobs.length} job hubs, ${locations.length} city hubs, ${totalCombos} job × city salary pages, plus tools and reference.`;
+---
+<BaseLayout title={title} description={description}>
+  <div class="container">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Directory', url: '/directory/' }]} />
+    <p class="kicker">A–Z Site Directory</p>
+    <h1>Every page on SalaryData.co.uk</h1>
+    <p class="lead">
+      Complete index of {jobs.length + locations.length + companies.length + totalCombos} pages.
+      Useful for finding a specific role, comparing roles in a city, or checking what's been
+      published. Crawlers should also use this page for one-hop discovery of every URL.
+    </p>
+
+    <section>
+      <h2>Tools and reference</h2>
+      <ul class="cols">
+        <li><a href="/">Home</a></li>
+        <li><a href="/salary-calculator/">UK take-home pay calculator</a></li>
+        <li><a href="/methodology/">Methodology</a></li>
+        <li><a href="/about/">About SalaryData</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/privacy/">Privacy policy</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Hub pages</h2>
+      <ul class="cols">
+        <li><a href="/salary/">All UK salary pages (by job)</a></li>
+        <li><a href="/location/">All UK city salary pages</a></li>
+        <li><a href="/company/">UK company salaries</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Job salary hubs ({jobs.length})</h2>
+      <ul class="cols dense">
+        {jobs.map((j) => (
+          <li><a href={`/salary/${j.data.slug}/`}>{j.data.title}</a> <span class="muted">· {formatGBP(j.data.nationalMedianSalary)}</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <section>
+      <h2>City salary hubs ({locations.length})</h2>
+      <ul class="cols dense">
+        {locations.map((l) => (
+          <li><a href={`/location/${l.data.slug}/`}>{l.data.name}</a> <span class="muted">· {l.data.region}</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Company salary pages ({companies.length})</h2>
+      <ul class="cols">
+        {companies.map((c) => (
+          <li><a href={`/company/${c.data.slug}/salaries/`}>{c.data.name}</a> <span class="muted">· {c.data.sector}</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Job × City salary pages ({totalCombos})</h2>
+      <p class="note">
+        {totalCombos} salary pages in total — one per job × city combination. Listed below grouped
+        by job title for easy scanning. This grid is the primary content of the site.
+      </p>
+      {jobs.map((j) => (
+        <details class="job-block">
+          <summary>{j.data.title} <span class="muted">· {locations.length} cities</span></summary>
+          <ul class="cols dense">
+            {locations.map((l) => (
+              <li><a href={`/salary/${j.data.slug}/${l.data.slug}/`}>{j.data.title} in {l.data.name}</a></li>
+            ))}
+          </ul>
+        </details>
+      ))}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .kicker {
+    font-family: var(--font-body); font-size: .78rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .12em; color: var(--ink-3);
+    margin: 1rem 0 .5rem;
+  }
+  .lead { font-size: 1.05rem; color: var(--ink-2); max-width: 70ch; margin-bottom: 2rem; }
+  section { margin: 2.5rem 0; }
+  .cols {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: .35rem 1.5rem;
+  }
+  .cols.dense { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); font-size: .92rem; }
+  .cols li { padding: .15rem 0; }
+  .cols .muted { color: var(--ink-3); font-size: .85em; font-variant-numeric: tabular-nums; }
+  .job-block {
+    margin: .5rem 0;
+    border-bottom: 1px solid var(--rule);
+    padding: .85rem 0;
+  }
+  .job-block summary {
+    cursor: pointer; list-style: none; padding-right: 2rem; position: relative;
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    color: var(--ink-1); letter-spacing: -.01em;
+  }
+  .job-block summary::-webkit-details-marker { display: none; }
+  .job-block summary::after {
+    content: '+'; position: absolute; right: 0; top: -2px;
+    font-size: 1.3rem; color: var(--ink-3); font-weight: 300;
+    transition: transform .2s ease;
+  }
+  .job-block details[open] summary::after, .job-block[open] summary::after { transform: rotate(45deg); color: var(--ink-1); }
+  .job-block ul { margin-top: .85rem; }
+  .note { font-size: .92rem; color: var(--ink-3); }
+</style>
