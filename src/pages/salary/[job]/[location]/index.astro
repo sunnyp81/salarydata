@@ -18,6 +18,14 @@ import {
   moneyPageIntro,
   categoryHeading,
   categoryNarrative,
+  transitionToExperience,
+  transitionToCalculator,
+  transitionToJobs,
+  transitionToComparison,
+  transitionToCategoryDeepdive,
+  transitionToNearbyCities,
+  transitionToSameCategoryJobs,
+  transitionToFaq,
 } from '../../../../lib/copywriting';
 import { buildBreadcrumbSchema, buildFaqSchema, buildOccupationSchema } from '../../../../lib/schemaBuilder';
 import { reedJobsLink } from '../../../../lib/affiliateLinks';
@@ -102,7 +110,15 @@ const faqs = [
   },
   {
     question: `Is ${location.name} a good place to work as a ${job.title}?`,
-    answer: `<p>${location.name} pays <strong>${adj.multiplier > 1 ? `${Math.round((adj.multiplier - 1) * 100)}% above` : adj.multiplier < 1 ? `${Math.round((1 - adj.multiplier) * 100)}% below` : 'in line with'}</strong> the UK ${job.title} median, and the local employer pool includes ${location.majorEmployers.slice(0, 3).join(', ')}. Cost of living runs at ${location.costOfLivingIndex} on the UK-100 index, which means ${formatGBP(adj.median)} here has the real purchasing power of ${formatGBP(adj.costOfLivingAdjusted)} nationally. Unemployment of ${location.unemploymentRate}% gives a useful read on how tight the local labour market is.</p>`,
+    answer: `<p><strong>${
+      adj.multiplier >= 1.05 && location.unemploymentRate <= 5
+        ? 'Yes — strong on both pay and labour-market tightness.'
+        : adj.multiplier >= 1.0
+          ? 'Generally yes, with caveats around cost of living.'
+          : adj.multiplier >= 0.95
+            ? 'It depends on what you weight more heavily — pay, cost of living or commute.'
+            : 'Pay sits below the UK average, but lower cost of living often offsets the headline gap.'
+    }</strong> ${location.name} pays ${adj.multiplier > 1 ? `${Math.round((adj.multiplier - 1) * 100)}% above` : adj.multiplier < 1 ? `${Math.round((1 - adj.multiplier) * 100)}% below` : 'in line with'} the UK ${job.title} median, with major local employers including ${location.majorEmployers.slice(0, 3).join(', ')}. Cost of living runs at ${location.costOfLivingIndex} on the UK-100 index, so ${formatGBP(adj.median)} here has the real purchasing power of ${formatGBP(adj.costOfLivingAdjusted)} at the national average. Unemployment of ${location.unemploymentRate}% gives a useful read on how tight the local labour market is — under 4% generally favours candidates on pay.</p>`,
   },
   {
     question: `What skills do ${job.title}s need to earn more?`,
@@ -160,7 +176,9 @@ const schema = [
         </div>
       </div>
       <div class="intro" set:html={intro} />
-      <p class="source">Source: ONS Annual Survey of Hours and Earnings, {year - 1}. Updated {job.lastUpdated}.</p>
+      <p class="source">
+        Source: <a href="https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/2023" rel="noopener" target="_blank">ONS Annual Survey of Hours and Earnings</a>, {year - 1}, adjusted for the {location.region} regional pay differential. Updated {job.lastUpdated}. <a href="/methodology/">Full methodology</a>.
+      </p>
     </section>
 
     <SalaryRangeChart
@@ -173,10 +191,7 @@ const schema = [
     />
 
     <h2>{job.title} salary by experience in {location.name}</h2>
-    <p>
-      Pay in this role moves in steps rather than an annual increment. The four bands below
-      reflect what each tier typically commands in {location.name} — local figures, not UK averages.
-    </p>
+    <p>{transitionToExperience(job, location)} The four bands below reflect what each tier typically commands in {location.name} — local figures, not UK averages, with each step usually triggered by a level change rather than an annual increment.</p>
     <table>
       <thead>
         <tr>
@@ -203,9 +218,13 @@ const schema = [
       {Math.abs(colDiff)}% {colDirection} real purchasing power than the national figure.
     </div>
 
+    <p>{transitionToCalculator(job, location)}</p>
+
     <TakeHomeCalculator client:visible defaultSalary={adj.median} jobTitle={job.title} location={location.name} />
 
     <CVBuilderCTA jobTitle={job.title} campaign={`${job.slug}-${location.slug}`} />
+
+    <p>{transitionToJobs(job, location)}</p>
 
     <JobListingsWidget
       client:visible
@@ -215,6 +234,8 @@ const schema = [
       estimateCount={adj.activeJobListingsEstimate}
       reedUrl={reedUrl}
     />
+
+    <p>{transitionToComparison(job, location)}</p>
 
     <SalaryComparison
       client:visible
@@ -229,16 +250,13 @@ const schema = [
     />
 
     <h2>{catH2}</h2>
+    <p>{transitionToCategoryDeepdive(job)}</p>
     <div set:html={catBody} />
 
     {nearby.length > 0 && (
       <>
         <h2>{job.title} salaries in cities near {location.name}</h2>
-        <p>
-          If you're weighing up an offer in {location.name} against a similar role in a neighbouring city,
-          the four comparisons below show how pay shifts within the same region. Multipliers come from
-          the ONS regional median pay differential — the figures already account for the gap.
-        </p>
+        <p>{transitionToNearbyCities(job, location)} The four comparisons below show how pay shifts within the same region — multipliers come from the ONS regional median pay differential, so the figures already account for the regional gap.</p>
         <ul class="related">
           {nearby.map((nb) => {
             const nbMedian = Math.round(job.nationalMedianSalary * nb.locationMultiplier);
@@ -260,10 +278,7 @@ const schema = [
     {sameCatJobs.length > 0 && (
       <>
         <h2>Other {job.category.toLowerCase()} jobs in {location.name}</h2>
-        <p>
-          Salaries for closely related {job.category.toLowerCase()} roles in {location.name} —
-          useful if you're comparing routes into or out of the {job.title} track.
-        </p>
+        <p>{transitionToSameCategoryJobs(job)} Salaries for closely related {job.category.toLowerCase()} roles in {location.name} are below — useful when comparing routes into or out of the {job.title} track.</p>
         <ul class="related">
           {sameCatJobs.map((sj) => (
             <li>
@@ -292,6 +307,8 @@ const schema = [
         </ul>
       </>
     )}
+
+    <p>{transitionToFaq(job, location)}</p>
 
     <FAQ items={faqs} />
 

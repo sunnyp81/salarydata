@@ -16,6 +16,12 @@ export async function getStaticPaths() {
 const { location } = Astro.props;
 const allLocations = await getCollection('locations');
 const allJobs = await getCollection('jobs');
+const allCompanies = await getCollection('companies');
+
+// Companies that flag this location as headquarters or among their listed UK employers via cities
+const linkedCompanies = allCompanies.filter((c) =>
+  c.data.headquarters === location.name || location.majorEmployers.includes(c.data.name)
+);
 
 const rows = allJobs
   .map((j) => ({
@@ -146,6 +152,26 @@ const costNarrative = cityCostNarrative(location, cmpData);
         ))}
       </tbody>
     </table>
+
+    {linkedCompanies.length > 0 && (
+      <>
+        <h2>Major employers in {location.name} with published salary data</h2>
+        <p>
+          The companies below either headquarter in {location.name} or list it as part of their
+          UK employer profile. Each links through to role-level salary bands at that company.
+        </p>
+        <ul class="related">
+          {linkedCompanies.map((c) => (
+            <li>
+              <a href={`/company/${c.data.slug}/salaries/`}>
+                <strong>{c.data.name}</strong>
+                <span>{c.data.sector} · {formatGBP(c.data.averageSalary)} avg salary</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
 
     {nearby.length > 0 && (
       <>

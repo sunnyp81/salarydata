@@ -8,6 +8,7 @@ import TakeHomeCalculator from '../../../../components/TakeHomeCalculator.tsx';
 import CVBuilderCTA from '../../../../components/CVBuilderCTA.astro';
 import { formatGBP } from '../../../../lib/ukTaxCalc';
 import { buildBreadcrumbSchema, buildFaqSchema } from '../../../../lib/schemaBuilder';
+import { companyNarrative } from '../../../../lib/copywriting';
 
 export async function getStaticPaths() {
   const companies = await getCollection('companies');
@@ -15,6 +16,11 @@ export async function getStaticPaths() {
 }
 
 const { company } = Astro.props;
+const allLocations = await getCollection('locations');
+
+// Cities where this company appears in majorEmployers — lateral link target
+const citiesEmploying = allLocations.filter((l) => l.data.majorEmployers.includes(company.name));
+
 const year = new Date().getFullYear();
 const url = `/company/${company.slug}/salaries/`;
 const title = `${company.name} Salaries ${year} | Average Pay by Role`;
@@ -52,13 +58,14 @@ const schema = [
   <div class="container">
     <Breadcrumbs items={crumbs} />
     <h1>{company.name} Salaries ({year})</h1>
-    <p>
-      {company.name} ({company.ftseIndex}, {company.sector}) employs approximately
-      <strong>{company.employeeCount.toLocaleString()}</strong> people, headquartered in {company.headquarters}.
-      Average salary: <strong>{formatGBP(company.averageSalary)}</strong>.
+    <p class="lead">
+      The average salary at {company.name} is around <strong>{formatGBP(company.averageSalary)}</strong> across roughly {company.employeeCount.toLocaleString()} employees, with the highest-paid role on this site ({topRole.role}) at {formatGBP(topRole.median)} median. Headquartered in {company.headquarters}, listed on the {company.ftseIndex}, in {company.sector.toLowerCase()}.
     </p>
 
+    <div set:html={companyNarrative(company)} />
+
     <h2>Salary by role at {company.name}</h2>
+    <p>The bands below are typical UK base salary; total compensation including bonus, equity and pension can run materially higher in senior or commission-linked roles.</p>
     <table>
       <thead>
         <tr><th>Role</th><th>Median</th><th>Range</th></tr>
@@ -86,6 +93,33 @@ const schema = [
 
     <CVBuilderCTA campaign={`company-${company.slug}`} />
 
+    {citiesEmploying.length > 0 && (
+      <>
+        <h2>Where {company.name} hires in the UK</h2>
+        <p>
+          {company.name} appears in the major-employer profile for the cities below, which is a
+          rough proxy for where the bulk of their UK headcount sits. Click into a city to see how
+          local pay across all roles compares to the {company.name} averages above.
+        </p>
+        <ul class="cities">
+          {citiesEmploying.map((l) => (
+            <li><a href={`/location/${l.data.slug}/`}><strong>{l.data.name}</strong> <span>· {l.data.region}</span></a></li>
+          ))}
+        </ul>
+      </>
+    )}
+
     <FAQ items={faqs} />
   </div>
 </BaseLayout>
+
+<style>
+  .lead { font-size: 1.05rem; color: var(--c-ink); max-width: 70ch; }
+  .cities { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .5rem; }
+  .cities li a {
+    display: block; padding: .7rem 1rem; background: #f8fafc;
+    border: 1px solid #e2e8f0; border-radius: 10px; color: var(--c-ink);
+  }
+  .cities li a:hover { background: #fff; border-color: var(--c-accent); text-decoration: none; }
+  .cities span { color: var(--c-muted); font-size: .9em; }
+</style>

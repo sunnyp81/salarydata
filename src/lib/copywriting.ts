@@ -137,6 +137,74 @@ export function cityCostNarrative(loc: LocLite, nearbyComparisons: { name: strin
     <p>The practical implication for salary negotiation: in ${loc.name}, a salary that lands in the lower quartile of UK figures is usually only competitive if it's offset by a meaningfully lower cost base. Use the cost-of-living-adjusted figures on individual job pages to compare offers across cities on a like-for-like basis rather than nominal pounds.</p>`;
 }
 
+// ---------- Anchor-segment transitions between H2s on money pages ----------
+// One sentence per heading that picks up the prior section's concept. Stops the
+// page reading like a sequence of disconnected blocks (KB-14 contextual flow).
+
+export function transitionToExperience(job: JobLite, loc: LocLite): string {
+  return `That headline median masks a wide spread once you split ${loc.name} ${job.title.toLowerCase()}s by years of experience.`;
+}
+
+export function transitionToCalculator(_job: JobLite, _loc: LocLite): string {
+  return `Gross figures only tell half the story — what actually lands in your bank account depends on tax, NI, student loan and pension. Run your own number below.`;
+}
+
+export function transitionToJobs(job: JobLite, loc: LocLite): string {
+  return `Pay ranges and take-home are the planning numbers; what you can actually move into right now is a different question. Live ${job.title.toLowerCase()} vacancies in ${loc.name} are below.`;
+}
+
+export function transitionToComparison(job: JobLite, loc: LocLite): string {
+  return `It's also worth seeing how ${loc.name} stacks up — both against the UK average and against other cities ${job.title.toLowerCase()}s commonly relocate between.`;
+}
+
+export function transitionToCategoryDeepdive(job: JobLite): string {
+  switch (job.category) {
+    case 'Technology': return `Beyond the headline numbers, the more useful question for engineers is what actually drives pay between bands.`;
+    case 'Finance': return `Base pay is the easy part of finance comp to publish — bonuses are the harder, more variable bit, and where the real differentiation sits.`;
+    case 'Marketing': return `Marketing pay isn't a single market — it splits along clear lines that the median salary alone doesn't show.`;
+    case 'Healthcare': return `For NHS-employed staff in particular, the published pay tables only describe the basic-band figure; the true take-home includes layers the median figure can't capture.`;
+    case 'Legal': return `Legal pay scales by Post-Qualified Experience more rigidly than almost any other profession, which makes salary progression unusually predictable to map.`;
+    case 'Construction': return `Construction pay branches sharply between PAYE employment and contracting — the right comparison depends on which route you're on.`;
+    default: return `It's worth understanding what actually moves pay in this profession beyond the headline median.`;
+  }
+}
+
+export function transitionToNearbyCities(job: JobLite, loc: LocLite): string {
+  return `If ${loc.name} doesn't quite work for the role — commute, rent, partner's job — the same role in nearby cities tells you what the trade-off looks like in £ terms.`;
+}
+
+export function transitionToSameCategoryJobs(job: JobLite): string {
+  return `Adjacent ${job.category.toLowerCase()} roles often pay differently to ${job.title.toLowerCase()} for similar skill profiles, which is useful when you're choosing what to specialise in next.`;
+}
+
+export function transitionToFaq(job: JobLite, loc: LocLite): string {
+  return `Common questions about ${job.title.toLowerCase()} pay in ${loc.name}, answered with the underlying figures from the same dataset used above.`;
+}
+
+// ---------- Company-page narrative ----------
+
+export function companyNarrative(c: {
+  name: string;
+  sector: string;
+  ftseIndex: string;
+  employeeCount: number;
+  headquarters: string;
+  averageSalary: number;
+  salaryByRole: { role: string; median: number; range: [number, number] }[];
+}): string {
+  const top = c.salaryByRole[0];
+  const sectorBlurb =
+    c.sector === 'Banking' ? 'a sector where total comp consistently runs above headline base pay because of bonuses, deferred stock and pension contributions that are large by UK standards'
+    : c.sector === 'Pharmaceuticals' ? 'a science-led sector that pays a structural premium for technical depth and regulatory specialism, particularly in R&D and biostatistics'
+    : c.sector === 'Consumer Goods' ? 'a sector that pays moderate base salaries with strong long-term progression for those who land on the marketing or commercial leadership track'
+    : c.sector === 'Energy' ? 'a sector that pays well for technical and project management roles, with a noticeable premium for offshore and major-capital-project experience'
+    : 'a sector with its own pay norms that don\'t always match the wider market';
+
+  return `<p>${c.name} is ${c.ftseIndex === 'Private' ? 'a UK private-sector employer' : `listed on the ${c.ftseIndex}`} in ${c.sector.toLowerCase()}, employing roughly ${c.employeeCount.toLocaleString()} people globally with its headquarters in ${c.headquarters}. It operates in ${sectorBlurb}.</p>
+    <p>The average salary across all UK roles at ${c.name} is around ${formatGBP(c.averageSalary)} — a useful headline figure, but pay variation between roles is wide. The highest-paid role on this site is <strong>${top.role}</strong> at ${formatGBP(top.median)} median (${formatGBP(top.range[0])}–${formatGBP(top.range[1])} range). Roles further down the table earn less in absolute terms but often have shorter hours, more predictable progression and stronger pension benefits — particularly relevant when comparing total reward across employers.</p>
+    <p>Salary at ${c.name}, like most UK employers of this scale, is set by a combination of formal pay bands (which prevent obvious within-grade discrepancies) and discretionary uplifts at hiring (which create them). The fastest way to a meaningful pay rise here, as elsewhere, tends to be promotion to the next band or a credible external offer.</p>`;
+}
+
 // ---------- Job-hub narrative ----------
 
 export function jobHubMarketNarrative(job: JobLite, topCity: string, topMedian: number): string {
