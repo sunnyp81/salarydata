@@ -130,7 +130,7 @@ const costNarrative = cityCostNarrative(location, cmpData);
     </ul>
 
     <h2>All {location.name} salaries by job title</h2>
-    <table>
+    <table class="salary-table">
       <thead>
         <tr>
           <th>Job title</th>
@@ -198,21 +198,43 @@ const costNarrative = cityCostNarrative(location, cmpData);
 </BaseLayout>
 
 <style>
-  .lead { font-size: 1.05rem; color: var(--c-ink); max-width: 70ch; }
+  .lead { font-size: 1.05rem; color: var(--ink-2); max-width: 70ch; }
   .stats {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem;
-    margin: 1.5rem 0; padding: 1.25rem; background: #f8fafc;
-    border: 1px solid #e2e8f0; border-radius: 12px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0; margin: 1.5rem 0;
+    background: var(--surface-1);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--ink-1);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
   }
-  .stats > div { display: flex; flex-direction: column; }
-  .stats span { font-size: .8rem; color: var(--c-muted); }
-  .stats strong { font-size: 1.2rem; color: var(--c-ink); }
-  .related { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .6rem; }
+  .stats > div {
+    display: flex; flex-direction: column; gap: .35rem;
+    padding: 1.25rem 1.4rem;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .stats > div:last-child { border-right: 0; }
+  .stats span {
+    font-family: var(--font-body); font-size: .72rem;
+    color: var(--ink-3); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+  .stats strong {
+    font-family: var(--font-display); font-variation-settings: 'opsz' 96;
+    font-size: 1.4rem; font-weight: 600; color: var(--ink-1);
+    font-variant-numeric: tabular-nums; letter-spacing: -.015em;
+  }
+  .related { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .65rem; }
   .related li a {
-    display: flex; flex-direction: column; gap: .2rem;
-    padding: .85rem 1.1rem; background: #f8fafc; border: 1px solid #e2e8f0;
-    border-radius: 10px; color: var(--c-ink);
+    display: flex; flex-direction: column; gap: .25rem;
+    padding: 1rem 1.2rem;
+    background: var(--surface-1); border: 1px solid var(--rule);
+    border-radius: var(--r-md); color: var(--ink-1);
+    transition: border-color .15s ease, transform .15s ease;
   }
-  .related li a:hover { background: #fff; border-color: var(--c-accent); text-decoration: none; }
-  .related li span { color: var(--c-muted); font-size: .88rem; }
+  .related li a:hover { border-color: var(--ink-2); transform: translateY(-1px); color: var(--ink-1); }
+  .related li a strong { font-family: var(--font-display); font-weight: 600; font-size: 1.02rem; letter-spacing: -.01em; }
+  .related li span { color: var(--ink-3); font-size: .87rem; font-variant-numeric: tabular-nums; }
 </style>

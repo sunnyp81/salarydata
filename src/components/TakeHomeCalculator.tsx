@@ -17,26 +17,36 @@ export default function TakeHomeCalculator({ defaultSalary, jobTitle, location }
     [salary, studentLoan, pensionPercent]
   );
 
-  const ctx = jobTitle && location ? `${jobTitle} in ${location}` : jobTitle ?? 'UK';
+  const ctx = jobTitle && location ? `${jobTitle}, ${location}` : jobTitle ?? 'UK';
 
   return (
     <div
       style={{
-        background: '#f8fafc',
-        border: '1px solid #e2e8f0',
-        borderRadius: 12,
-        padding: '1.5rem',
-        margin: '1.5rem 0',
+        background: 'var(--surface-1)',
+        border: '1px solid var(--rule)',
+        borderTop: '3px solid var(--ink-1)',
+        borderRadius: 'var(--r-md)',
+        padding: '1.75rem',
+        margin: '2rem 0',
+        boxShadow: 'var(--shadow-card)',
       }}
     >
-      <h3 style={{ marginTop: 0, fontSize: '1.2rem' }}>Take-home pay calculator — {ctx}</h3>
-      <p style={{ fontSize: '.85rem', color: '#475569', margin: '0 0 1rem' }}>
-        Tax year 2024/25 · England, Wales, Northern Ireland
-      </p>
+      <div style={{ marginBottom: '1.25rem' }}>
+        <p style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '.72rem', color: 'var(--ink-3)', fontWeight: 600,
+          textTransform: 'uppercase', letterSpacing: '.08em', margin: '0 0 .35rem',
+        }}>Take-home pay calculator · 2024/25</p>
+        <h3 style={{
+          margin: 0, fontSize: '1.35rem',
+          fontFamily: 'var(--font-display)', fontVariationSettings: '"opsz" 96',
+          fontWeight: 600, letterSpacing: '-.015em', color: 'var(--ink-1)',
+        }}>{ctx}</h3>
+      </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.1rem' }}>
         <label style={{ display: 'block' }}>
-          <span style={{ display: 'block', fontSize: '.85rem', color: '#475569', marginBottom: '.35rem' }}>Gross annual salary</span>
+          <span style={fieldLabelStyle}>Gross annual salary</span>
           <input
             type="number"
             value={salary}
@@ -44,16 +54,16 @@ export default function TakeHomeCalculator({ defaultSalary, jobTitle, location }
             min={0}
             max={500000}
             onChange={(e) => setSalary(Number(e.target.value) || 0)}
-            style={{ width: '100%', padding: '.6rem .75rem', border: '1px solid #cbd5e1', borderRadius: 8, fontSize: '1rem' }}
+            style={inputStyle}
           />
         </label>
 
         <label style={{ display: 'block' }}>
-          <span style={{ display: 'block', fontSize: '.85rem', color: '#475569', marginBottom: '.35rem' }}>Student loan plan</span>
+          <span style={fieldLabelStyle}>Student loan plan</span>
           <select
             value={studentLoan}
             onChange={(e) => setStudentLoan(e.target.value as StudentLoanPlan)}
-            style={{ width: '100%', padding: '.6rem .75rem', border: '1px solid #cbd5e1', borderRadius: 8, fontSize: '1rem', background: '#fff' }}
+            style={{ ...inputStyle, background: 'var(--surface-1)' }}
           >
             <option value="none">None</option>
             <option value="plan1">Plan 1</option>
@@ -65,8 +75,8 @@ export default function TakeHomeCalculator({ defaultSalary, jobTitle, location }
         </label>
 
         <label style={{ display: 'block' }}>
-          <span style={{ display: 'block', fontSize: '.85rem', color: '#475569', marginBottom: '.35rem' }}>
-            Pension contribution: {pensionPercent}%
+          <span style={fieldLabelStyle}>
+            Pension contribution: <strong style={{ color: 'var(--ink-1)' }}>{pensionPercent}%</strong>
           </span>
           <input
             type="range"
@@ -74,42 +84,46 @@ export default function TakeHomeCalculator({ defaultSalary, jobTitle, location }
             max={25}
             value={pensionPercent}
             onChange={(e) => setPensionPercent(Number(e.target.value))}
-            style={{ width: '100%' }}
+            style={{ width: '100%', accentColor: 'var(--accent)', marginTop: '.6rem' }}
           />
         </label>
       </div>
 
       <div
         style={{
-          marginTop: '1.25rem',
-          padding: '1rem 1.25rem',
-          background: '#fff',
-          border: '1px solid #e2e8f0',
-          borderRadius: 10,
+          marginTop: '1.5rem',
+          padding: '1.25rem 1.5rem',
+          background: 'var(--surface-2)',
+          border: '1px solid var(--rule)',
+          borderRadius: 'var(--r-md)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '.75rem', marginBottom: '.5rem', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '2rem', fontWeight: 800, color: '#0369a1' }}>{formatGBP(result.netMonthly)}</span>
-          <span style={{ color: '#475569', fontSize: '.95rem' }}>take-home per month</span>
+          <span style={{
+            fontFamily: 'var(--font-display)', fontVariationSettings: '"opsz" 144',
+            fontSize: 'clamp(2rem, 5vw, 2.75rem)', fontWeight: 700, color: 'var(--ink-1)',
+            letterSpacing: '-.03em', lineHeight: 1, fontVariantNumeric: 'tabular-nums',
+          }}>{formatGBP(result.netMonthly)}</span>
+          <span style={{ color: 'var(--ink-3)', fontSize: '.9rem' }}>take-home per month</span>
         </div>
-        <p style={{ margin: '0 0 1rem', color: '#475569', fontSize: '.9rem' }}>
-          {formatGBP(result.netAnnual)} per year · {formatGBP(result.netWeekly)} per week ·
-          Effective rate {(result.effectiveTaxRate * 100).toFixed(1)}%
+        <p style={{ margin: '0 0 1rem', color: 'var(--ink-3)', fontSize: '.88rem', fontVariantNumeric: 'tabular-nums' }}>
+          {formatGBP(result.netAnnual)}/yr · {formatGBP(result.netWeekly)}/wk · effective rate {(result.effectiveTaxRate * 100).toFixed(1)}%
         </p>
 
-        <table style={{ width: '100%', fontSize: '.9rem' }}>
+        <table style={{ width: '100%', fontSize: '.9rem', fontVariantNumeric: 'tabular-nums', borderCollapse: 'collapse' }}>
           <tbody>
-            <tr><td>Gross salary</td><td style={{ textAlign: 'right' }}>{formatGBP(result.grossAnnual)}</td></tr>
+            <tr style={rowStyle}><td style={tdLabel}>Gross salary</td><td style={tdValue}>{formatGBP(result.grossAnnual)}</td></tr>
             {result.pensionContribution > 0 && (
-              <tr><td>Pension ({pensionPercent}%)</td><td style={{ textAlign: 'right' }}>−{formatGBP(result.pensionContribution)}</td></tr>
+              <tr style={rowStyle}><td style={tdLabel}>Pension ({pensionPercent}%)</td><td style={tdValue}>−{formatGBP(result.pensionContribution)}</td></tr>
             )}
-            <tr><td>Income tax</td><td style={{ textAlign: 'right' }}>−{formatGBP(result.incomeTax)}</td></tr>
-            <tr><td>National Insurance</td><td style={{ textAlign: 'right' }}>−{formatGBP(result.nationalInsurance)}</td></tr>
+            <tr style={rowStyle}><td style={tdLabel}>Income tax</td><td style={tdValue}>−{formatGBP(result.incomeTax)}</td></tr>
+            <tr style={rowStyle}><td style={tdLabel}>National Insurance</td><td style={tdValue}>−{formatGBP(result.nationalInsurance)}</td></tr>
             {result.studentLoanRepayment > 0 && (
-              <tr><td>Student loan</td><td style={{ textAlign: 'right' }}>−{formatGBP(result.studentLoanRepayment)}</td></tr>
+              <tr style={rowStyle}><td style={tdLabel}>Student loan</td><td style={tdValue}>−{formatGBP(result.studentLoanRepayment)}</td></tr>
             )}
-            <tr style={{ fontWeight: 700, borderTop: '2px solid #0f172a' }}>
-              <td>Net take-home</td><td style={{ textAlign: 'right', color: '#15803d' }}>{formatGBP(result.netAnnual)}</td>
+            <tr style={{ fontWeight: 700, borderTop: '2px solid var(--ink-1)' }}>
+              <td style={{ ...tdLabel, color: 'var(--ink-1)', fontWeight: 600, paddingTop: '.6rem' }}>Net take-home</td>
+              <td style={{ ...tdValue, color: 'var(--positive)', fontWeight: 700, paddingTop: '.6rem' }}>{formatGBP(result.netAnnual)}</td>
             </tr>
           </tbody>
         </table>
@@ -117,3 +131,30 @@ export default function TakeHomeCalculator({ defaultSalary, jobTitle, location }
     </div>
   );
 }
+
+const fieldLabelStyle: React.CSSProperties = {
+  display: 'block',
+  fontFamily: 'var(--font-body)',
+  fontSize: '.78rem',
+  color: 'var(--ink-3)',
+  fontWeight: 600,
+  textTransform: 'uppercase',
+  letterSpacing: '.05em',
+  marginBottom: '.45rem',
+};
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '.65rem .85rem',
+  border: '1px solid var(--rule-strong)',
+  borderRadius: 'var(--r-sm)',
+  fontSize: '1rem',
+  fontFamily: 'inherit',
+  fontVariantNumeric: 'tabular-nums',
+  color: 'var(--ink-1)',
+  background: 'var(--surface-1)',
+};
+
+const rowStyle: React.CSSProperties = {};
+const tdLabel: React.CSSProperties = { padding: '.4rem 0', color: 'var(--ink-2)' };
+const tdValue: React.CSSProperties = { padding: '.4rem 0', textAlign: 'right', color: 'var(--ink-1)' };

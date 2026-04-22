@@ -21,7 +21,6 @@ export default function SalaryRangeChart({ lowerQuartile, median, upperQuartile,
   const lo = minimum ?? lowerQuartile * 0.7;
   const hi = maximum ?? upperQuartile * 1.4;
   const span = hi - lo;
-
   const pct = (v: number) => ((v - lo) / span) * 100;
 
   const lqPos = pct(lowerQuartile);
@@ -29,48 +28,74 @@ export default function SalaryRangeChart({ lowerQuartile, median, upperQuartile,
   const uqPos = pct(upperQuartile);
 
   return (
-    <div style={{ margin: '1.5rem 0' }}>
-      {title && <p style={{ fontSize: '.9rem', color: '#475569', marginBottom: '.5rem' }}>{title}</p>}
+    <div style={{ margin: '2rem 0 1.5rem' }}>
+      {title && (
+        <p style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '.72rem', color: 'var(--ink-3)', fontWeight: 600,
+          textTransform: 'uppercase', letterSpacing: '.08em', marginBottom: '.85rem',
+        }}>{title}</p>
+      )}
       <div
         style={{
           position: 'relative',
-          height: 14,
-          background: '#e2e8f0',
-          borderRadius: 7,
+          height: 10,
+          background: 'var(--surface-3)',
+          borderRadius: 2,
           overflow: 'visible',
         }}
+        role="img"
+        aria-label={`Salary range: lower quartile ${fmt(lowerQuartile)}, median ${fmt(median)}, upper quartile ${fmt(upperQuartile)}`}
       >
+        {/* Inter-quartile fill */}
         <div
           style={{
             position: 'absolute',
             left: `${lqPos}%`,
             width: `${uqPos - lqPos}%`,
             height: '100%',
-            background: 'linear-gradient(90deg, #7dd3fc, #0369a1)',
-            borderRadius: 7,
+            background: 'var(--ink-1)',
+            borderRadius: 2,
+          }}
+        />
+        {/* Median tick */}
+        <div
+          style={{
+            position: 'absolute',
+            left: `${medPos}%`,
+            top: -6,
+            transform: 'translateX(-50%)',
+            width: 2,
+            height: 22,
+            background: 'var(--highlight)',
           }}
         />
         <div
           style={{
             position: 'absolute',
             left: `${medPos}%`,
-            top: -4,
+            top: -22,
             transform: 'translateX(-50%)',
-            width: 4,
-            height: 22,
-            background: '#0f172a',
-            borderRadius: 2,
+            fontSize: '.7rem',
+            fontWeight: 600,
+            color: 'var(--highlight)',
+            fontFamily: 'var(--font-body)',
+            textTransform: 'uppercase',
+            letterSpacing: '.08em',
+            whiteSpace: 'nowrap',
           }}
-          aria-label={`Median ${fmt(median)}`}
-        />
+        >
+          Median
+        </div>
       </div>
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          fontSize: '.8rem',
-          color: '#475569',
-          marginTop: '.5rem',
+          fontSize: '.78rem',
+          color: 'var(--ink-3)',
+          marginTop: '.6rem',
+          fontVariantNumeric: 'tabular-nums',
         }}
       >
         <span>{fmt(lo)}</span>
@@ -80,15 +105,34 @@ export default function SalaryRangeChart({ lowerQuartile, median, upperQuartile,
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '.5rem',
-          marginTop: '.75rem',
-          fontSize: '.85rem',
+          gap: '1rem',
+          marginTop: '1.25rem',
+          paddingTop: '1.25rem',
+          borderTop: '1px solid var(--rule)',
         }}
       >
-        <div><strong style={{ display: 'block' }}>{fmt(lowerQuartile)}</strong><span style={{ color: '#475569' }}>Lower quartile</span></div>
-        <div style={{ textAlign: 'center' }}><strong style={{ display: 'block', color: '#0369a1' }}>{fmt(median)}</strong><span style={{ color: '#475569' }}>Median</span></div>
-        <div style={{ textAlign: 'right' }}><strong style={{ display: 'block' }}>{fmt(upperQuartile)}</strong><span style={{ color: '#475569' }}>Upper quartile</span></div>
+        <Stat label="Lower quartile" value={fmt(lowerQuartile)} />
+        <Stat label="Median" value={fmt(median)} highlight />
+        <Stat label="Upper quartile" value={fmt(upperQuartile)} align="right" />
       </div>
+    </div>
+  );
+}
+
+function Stat({ label, value, highlight, align }: { label: string; value: string; highlight?: boolean; align?: 'right' }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '.2rem', textAlign: align === 'right' ? 'right' : (highlight ? 'center' : 'left') }}>
+      <span style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: '.7rem', color: 'var(--ink-3)', fontWeight: 600,
+        textTransform: 'uppercase', letterSpacing: '.08em',
+      }}>{label}</span>
+      <strong style={{
+        fontFamily: 'var(--font-display)', fontVariationSettings: '"opsz" 96',
+        fontSize: '1.25rem', fontWeight: 600,
+        color: highlight ? 'var(--highlight)' : 'var(--ink-1)',
+        fontVariantNumeric: 'tabular-nums', letterSpacing: '-.015em',
+      }}>{value}</strong>
     </div>
   );
 }

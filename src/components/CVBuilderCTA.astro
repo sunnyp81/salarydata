@@ -18,13 +18,21 @@ const link = topCvLink(campaign);
 <style>
   .cta-cv {
     display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1.5rem;
-    background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px;
-    padding: 1.25rem 1.5rem; margin: 2rem 0;
+    background: var(--highlight-tint); border: 1px solid var(--highlight-soft);
+    border-left: 3px solid var(--highlight);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    padding: 1.4rem 1.6rem; margin: 2.5rem 0;
   }
-  .cta-cv h3 { margin: 0 0 .35rem; font-size: 1.1rem; }
-  .cta-cv p { margin: 0; font-size: .92rem; color: #475569; }
-  .cta-cv .btn { background: #c2410c; }
-  .cta-cv .btn:hover { background: #9a3412; }
+  .cta-cv h3 {
+    margin: 0 0 .4rem; font-size: 1.15rem;
+    font-family: var(--font-display); font-weight: 600; letter-spacing: -.01em;
+    color: var(--ink-1);
+  }
+  .cta-cv p { margin: 0; font-size: .94rem; color: var(--ink-2); max-width: 60ch; }
+  .cta-cv .btn {
+    background: var(--highlight); border-color: var(--highlight); color: #fff;
+  }
+  .cta-cv .btn:hover { background: #92400e; border-color: #92400e; color: #fff; }
   @media (max-width: 640px) {
     .cta-cv { grid-template-columns: 1fr; }
   }

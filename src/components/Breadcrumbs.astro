@@ -12,7 +12,10 @@ const { items } = Astro.props;
       ) : (
         <a href={item.url}>{item.name}</a>
       )}
-      {i < items.length - 1 && <span>›</span>}
+      {i < items.length - 1 && <span class="sep" aria-hidden="true">/</span>}
     </>
   ))}
 </nav>
+<style>
+  .breadcrumbs .sep { color: var(--rule-strong); margin: 0 .15rem; }
+</style>

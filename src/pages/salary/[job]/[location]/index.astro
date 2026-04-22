@@ -153,31 +153,43 @@ const schema = [
     <Breadcrumbs items={crumbs} />
 
     <section class="hero">
-      <h1>{job.title} Salary in {location.name} ({year})</h1>
-      <div class="salary-hero">
-        <div>
-          <span class="salary-label">Median salary</span>
-          <span class="salary-value">{formatGBP(adj.median)}</span>
-          <span class="salary-unit">per year</span>
-        </div>
-        <div class="salary-meta">
-          <div>
-            <span>Lower quartile</span>
-            <strong>{formatGBP(adj.lowerQuartile)}</strong>
+      <p class="eyebrow">{job.category} · {location.region}</p>
+      <h1>{job.title} salary in {location.name}, {year}</h1>
+
+      <div class="salary-card">
+        <div class="salary-card-grid">
+          <div class="salary-figure">
+            <span class="salary-label">Median annual salary</span>
+            <span class="salary-value">{formatGBP(adj.median)}</span>
+            <span class="salary-unit">based on ONS ASHE, {location.region} regional adjustment</span>
           </div>
-          <div>
-            <span>Upper quartile</span>
-            <strong>{formatGBP(adj.upperQuartile)}</strong>
-          </div>
-          <div>
-            <span>Active jobs (est.)</span>
-            <strong>{adj.activeJobListingsEstimate.toLocaleString()}</strong>
-          </div>
+          <dl class="salary-meta">
+            <div>
+              <dt>Lower quartile</dt>
+              <dd>{formatGBP(adj.lowerQuartile)}</dd>
+            </div>
+            <div>
+              <dt>Upper quartile</dt>
+              <dd>{formatGBP(adj.upperQuartile)}</dd>
+            </div>
+            <div>
+              <dt>vs UK median</dt>
+              <dd class={adj.multiplier >= 1 ? 'pos' : 'neg'}>
+                {adj.multiplier >= 1 ? '+' : ''}{Math.round((adj.multiplier - 1) * 100)}%
+              </dd>
+            </div>
+            <div>
+              <dt>Open jobs (est.)</dt>
+              <dd>{adj.activeJobListingsEstimate.toLocaleString()}</dd>
+            </div>
+          </dl>
         </div>
       </div>
+
       <div class="intro" set:html={intro} />
+
       <p class="source">
-        Source: <a href="https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/2023" rel="noopener" target="_blank">ONS Annual Survey of Hours and Earnings</a>, {year - 1}, adjusted for the {location.region} regional pay differential. Updated {job.lastUpdated}. <a href="/methodology/">Full methodology</a>.
+        Source: <a href="https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/2023" rel="noopener" target="_blank">ONS Annual Survey of Hours and Earnings</a>, {year - 1}, adjusted for the {location.region} regional pay differential. Updated {job.lastUpdated}. <a href="/methodology/">Methodology</a>.
       </p>
     </section>
 
@@ -192,7 +204,7 @@ const schema = [
 
     <h2>{job.title} salary by experience in {location.name}</h2>
     <p>{transitionToExperience(job, location)} The four bands below reflect what each tier typically commands in {location.name} — local figures, not UK averages, with each step usually triggered by a level change rather than an annual increment.</p>
-    <table>
+    <table class="salary-table">
       <thead>
         <tr>
           <th>Experience level</th>
@@ -323,41 +335,133 @@ const schema = [
 
 <style>
   .hero { padding: 1.5rem 0 1rem; }
-  .intro { color: var(--c-ink); font-size: 1.02rem; max-width: 70ch; }
-  .intro :global(p) { margin: 0 0 .9rem; }
-  .salary-hero {
-    display: grid; grid-template-columns: auto 1fr; gap: 2rem;
-    align-items: center; padding: 1.5rem; margin: 1.25rem 0;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    border: 1px solid #bae6fd; border-radius: 16px;
+  .eyebrow {
+    font-family: var(--font-body); font-size: .78rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .1em; color: var(--ink-3);
+    margin: 0 0 .5rem; padding: 0;
   }
-  .salary-label { display: block; font-size: .85rem; color: var(--c-muted); text-transform: uppercase; letter-spacing: .05em; }
+  .intro { color: var(--ink-2); font-size: 1.05rem; max-width: 70ch; margin-top: 1.5rem; }
+  .intro :global(p) { margin: 0 0 1rem; }
+
+  /* Salary hero card — the £ figure is the product */
+  .salary-card {
+    background: var(--surface-1);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--ink-1);
+    border-radius: var(--r-md);
+    padding: 2rem 2.25rem;
+    margin: 1.5rem 0;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+  }
+  /* Subtle dot grid in the corner — gives the card "data instrument" feel */
+  .salary-card::after {
+    content: '';
+    position: absolute; top: 0; right: 0; width: 200px; height: 100%;
+    background-image: radial-gradient(circle, var(--rule) 1px, transparent 1px);
+    background-size: 14px 14px;
+    opacity: .35;
+    mask-image: linear-gradient(to left, black, transparent);
+    pointer-events: none;
+  }
+  .salary-card-grid {
+    display: grid; grid-template-columns: 1fr 1.1fr; gap: 2.5rem;
+    align-items: center; position: relative; z-index: 1;
+  }
+  .salary-figure { display: flex; flex-direction: column; }
+  .salary-label {
+    font-family: var(--font-body);
+    font-size: .78rem; color: var(--ink-3); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .1em;
+    margin-bottom: .35rem;
+  }
   .salary-value {
-    display: block; font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 800;
-    color: var(--c-accent); line-height: 1; margin: .25rem 0;
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 144;
+    font-size: clamp(3rem, 7vw, 4.5rem);
+    font-weight: 700;
+    color: var(--ink-1);
+    line-height: 1;
+    letter-spacing: -.04em;
+    font-variant-numeric: tabular-nums;
+    margin: .15rem 0 .5rem;
   }
-  .salary-unit { color: var(--c-muted); font-size: 1rem; }
-  .salary-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .salary-unit { color: var(--ink-3); font-size: .88rem; }
+  .salary-meta {
+    margin: 0; padding: 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 2rem;
+    border-left: 1px solid var(--rule); padding-left: 2.5rem;
+  }
   .salary-meta > div { display: flex; flex-direction: column; }
-  .salary-meta span { font-size: .8rem; color: var(--c-muted); margin-bottom: .2rem; }
-  .salary-meta strong { font-size: 1.1rem; color: var(--c-ink); }
-  .source { color: var(--c-muted); font-size: .85rem; font-style: italic; }
-  .source.small { font-size: .8rem; margin-top: 2rem; }
+  .salary-meta dt {
+    font-family: var(--font-body);
+    font-size: .72rem; color: var(--ink-3); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: .35rem;
+  }
+  .salary-meta dd {
+    margin: 0;
+    font-family: var(--font-display); font-variation-settings: 'opsz' 96;
+    font-size: 1.45rem; font-weight: 600; color: var(--ink-1);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.015em;
+  }
+  .salary-meta dd.pos { color: var(--positive); }
+  .salary-meta dd.neg { color: var(--negative); }
+
+  .source {
+    color: var(--ink-3); font-size: .82rem;
+    padding: .65rem 0; border-top: 1px solid var(--rule);
+    margin-top: 1.25rem;
+  }
+  .source a { color: var(--ink-3); border-bottom: 1px solid var(--rule-strong); }
+  .source a:hover { color: var(--accent); }
+  .source.small { font-size: .78rem; margin-top: 2rem; }
+
   .callout {
-    padding: 1rem 1.25rem; background: #dcfce7; border-left: 4px solid #15803d;
-    border-radius: 8px; margin: 1.5rem 0;
+    padding: 1.1rem 1.4rem;
+    background: var(--positive-soft); border-left: 3px solid var(--positive);
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    margin: 1.5rem 0;
+    color: var(--ink-1); font-size: .96rem;
   }
-  .related { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: .6rem; margin: 0 0 1.5rem; }
+
+  /* Related-items grid — softer, more publication-like */
+  .related {
+    list-style: none; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: .65rem; margin: 0 0 2rem;
+  }
   .related li a {
-    display: flex; flex-direction: column; gap: .2rem;
-    padding: .85rem 1.1rem; background: #f8fafc; border: 1px solid #e2e8f0;
-    border-radius: 10px; color: var(--c-ink);
+    display: flex; flex-direction: column; gap: .25rem;
+    padding: 1rem 1.2rem;
+    background: var(--surface-1); border: 1px solid var(--rule);
+    border-radius: var(--r-md); color: var(--ink-1);
+    border-bottom: 1px solid var(--rule);
+    transition: border-color .15s ease, transform .15s ease;
   }
-  .related li a:hover { background: #fff; border-color: var(--c-accent); text-decoration: none; }
-  .related li span { color: var(--c-muted); font-size: .88rem; }
-  .related li em { font-style: normal; color: var(--c-muted); font-size: .85em; }
-  @media (max-width: 720px) {
-    .salary-hero { grid-template-columns: 1fr; }
-    .salary-meta { grid-template-columns: 1fr 1fr; }
+  .related li a:hover {
+    border-color: var(--ink-2);
+    transform: translateY(-1px);
+    color: var(--ink-1);
+  }
+  .related li a strong {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.02rem;
+    letter-spacing: -.01em;
+  }
+  .related li a span {
+    color: var(--ink-3); font-size: .87rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .related li a em {
+    font-style: normal; color: var(--ink-3); font-size: .85em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 760px) {
+    .salary-card { padding: 1.5rem; }
+    .salary-card-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .salary-meta { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 1.5rem; }
   }
 </style>
