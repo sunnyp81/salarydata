@@ -48,8 +48,8 @@ const cmpData = nearby.map((n) => ({
 
 const year = new Date().getFullYear();
 const url = `/location/${location.slug}/`;
-const title = `${location.name} Salaries ${year} | Average Pay by Job, Cost of Living, Job Market`;
-const description = `${location.name} pay sits ${Math.round((location.locationMultiplier - 1) * 100)}% ${location.locationMultiplier >= 1 ? 'above' : 'below'} the UK median. Cost-of-living index ${location.costOfLivingIndex}. Average rent ${formatGBP(location.averageRent1Bed)}/mo. Browse all 30 job salaries.`;
+const title = location.seoTitle ?? `${location.name} Salaries ${year} | Average Pay by Job, Cost of Living, Job Market`;
+const description = location.seoDescription ?? `${location.name} pay sits ${Math.round((location.locationMultiplier - 1) * 100)}% ${location.locationMultiplier >= 1 ? 'above' : 'below'} the UK median. Cost-of-living index ${location.costOfLivingIndex}. Average rent ${formatGBP(location.averageRent1Bed)}/mo. Browse all 30 job salaries.`;
 
 const avgSalary = Math.round(rows.reduce((s, r) => s + r.median, 0) / rows.length);
 

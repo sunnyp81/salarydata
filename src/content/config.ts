@@ -5,6 +5,8 @@ const jobs = defineCollection({
   schema: z.object({
     slug: z.string(),
     title: z.string(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
     alternativeTitles: z.array(z.string()),
     category: z.string(),
     sectorCode: z.string(),
@@ -28,6 +30,8 @@ const locations = defineCollection({
   schema: z.object({
     slug: z.string(),
     name: z.string(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
     region: z.string(),
     population: z.number(),
     locationMultiplier: z.number(),

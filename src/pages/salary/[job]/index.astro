@@ -30,8 +30,8 @@ const cityRows = locations
 
 const year = new Date().getFullYear();
 const url = `/salary/${job.slug}/`;
-const title = `${job.title} Salary UK ${year} | Average Pay by City & Experience`;
-const description = `Average ${job.title} salary in the UK is ${formatGBP(job.nationalMedianSalary)}. Compare pay across ${locations.length} UK cities, see salary by experience level, and calculate take-home pay.`;
+const title = job.seoTitle ?? `${job.title} Salary UK ${year} | Average Pay by City & Experience`;
+const description = job.seoDescription ?? `Average ${job.title} salary in the UK is ${formatGBP(job.nationalMedianSalary)}. Compare pay across ${locations.length} UK cities, see salary by experience level, and calculate take-home pay.`;
 
 const faqs = [
   {
