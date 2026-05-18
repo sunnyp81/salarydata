@@ -7,8 +7,8 @@ import { formatGBP } from '../../lib/ukTaxCalc';
 const locations = (await getCollection('locations')).sort((a, b) => b.data.locationMultiplier - a.data.locationMultiplier);
 const regions = Array.from(new Set(locations.map((l) => l.data.region)));
 
-const title = 'UK City Salary Directory — Pay, Cost of Living, Job Markets';
-const description = `Browse salary, cost-of-living and job-market data for ${locations.length} UK cities. Compare pay multipliers, average rent and unemployment in one place.`;
+const title = 'UK Salaries by City: Compare Pay & Living';
+const description = `Compare salaries across ${locations.length} UK cities with cost-of-living index, rent prices, and employment data. Find where you earn most.`;
 ---
 <BaseLayout title={title} description={description}>
   <div class="container">

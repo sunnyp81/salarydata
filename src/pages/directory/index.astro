@@ -10,8 +10,8 @@ const companies = (await getCollection('companies')).sort((a, b) => a.data.name.
 
 const totalCombos = jobs.length * locations.length;
 
-const title = 'Site Directory — Every SalaryData Page';
-const description = `Complete A-Z index of every page on SalaryData.co.uk: ${jobs.length} job hubs, ${locations.length} city hubs, ${totalCombos} job × city salary pages, plus tools and reference.`;
+const title = 'Complete A-Z Index: 1000+ Salary Pages';
+const description = `Browse ${jobs.length} job titles across ${locations.length} UK cities. Salary data, job markets, cost of living, and employment stats for every role and location.`;
 ---
 <BaseLayout title={title} description={description}>
   <div class="container">
