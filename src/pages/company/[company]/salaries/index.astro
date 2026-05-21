@@ -23,8 +23,8 @@ const citiesEmploying = allLocations.filter((l) => l.data.majorEmployers.include
 
 const year = new Date().getFullYear();
 const url = `/company/${company.slug}/salaries/`;
-const title = `${company.name} Salaries ${year} | Average Pay by Role`;
-const description = `${company.name} average salary is ${formatGBP(company.averageSalary)}. See pay by role — ${company.salaryByRole.map((r) => r.role).slice(0, 3).join(', ')} and more.`;
+const title = company.seoTitle ?? `${company.name} UK Salaries ${year} | Average Pay by Role`;
+const description = company.seoDescription ?? `${company.name} average salary is ${formatGBP(company.averageSalary)}. See pay by role — ${company.salaryByRole.map((r) => r.role).slice(0, 3).join(', ')} and more.`;
 
 const topRole = [...company.salaryByRole].sort((a, b) => b.median - a.median)[0];
 
