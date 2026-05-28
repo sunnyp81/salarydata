@@ -1,0 +1,169 @@
+{
+  "pages": [
+    {
+      "url": "https://salarydata.co.uk/salary/barrister/",
+      "faq_schema": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the average barrister salary in the UK?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The average salary for a barrister in the UK can vary significantly based on experience, location, and the type of chambers or practice. Entry-level barristers typically earn less, while experienced QCs can command very high incomes. Our data provides detailed averages and ranges."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does experience affect a barrister's salary?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Experience is a major factor in a barrister's earning potential. Junior barristers in their first few years of practice will earn considerably less than those with 5-10 years of experience, and senior barristers or QCs with decades of experience often have the highest earnings."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What factors influence a barrister's earning potential?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Key factors include years of experience, specialisation (e.g., commercial, criminal, family law), location (London often pays more), the reputation of their chambers, and their success rate in cases. Self-employed barristers' income can also fluctuate based on caseload."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://salarydata.co.uk/salary/solicitor/",
+      "faq_schema": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the typical salary for a solicitor in the UK?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The typical salary for a solicitor in the UK varies widely depending on experience, firm size, practice area, and location. Newly qualified solicitors in regional firms might start lower, while those in top-tier London firms can earn significantly more."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do solicitor salaries vary by location in the UK?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, solicitor salaries are heavily influenced by location. London typically offers the highest salaries, especially within large commercial firms, while salaries in other major cities like Manchester, Birmingham, or Leeds, and smaller regional towns, tend to be lower."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does a solicitor's experience level impact their salary?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A solicitor's salary generally increases significantly with experience. Newly qualified (NQ) solicitors earn an entry-level salary, which then grows as they gain PQE (Post-Qualified Experience), with partners or senior associates commanding the highest remuneration."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://salarydata.co.uk/salary/quantity-surveyor/",
+      "faq_schema": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the average salary for a Quantity Surveyor in the UK?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The average salary for a Quantity Surveyor in the UK depends on factors such as experience, qualifications (e.g., RICS chartership), location, and the size/type of projects they work on. Our data provides a comprehensive overview of typical earnings."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does experience influence a Quantity Surveyor's salary?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Experience plays a crucial role in a Quantity Surveyor's salary. Entry-level or assistant QCs will earn less than experienced or senior QCs, and those in principal or director roles with extensive project management experience will command higher salaries."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are Quantity Surveyor salaries higher in certain UK cities?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, Quantity Surveyor salaries can vary by location. Major construction hubs like London and the South East often offer higher salaries due to a greater demand for skilled professionals and a higher cost of living, compared to other regions in the UK."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://salarydata.co.uk/salary/product-manager/",
+      "faq_schema": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the average Product Manager salary in the UK?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The average salary for a Product Manager in the UK is influenced by factors such as experience level, industry (e.g., tech, finance), company size, and location. Our data provides insights into typical salary ranges for this role."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does location affect Product Manager salaries in the UK?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Location significantly impacts Product Manager salaries. London, being a major tech hub, generally offers the highest salaries, followed by other large cities with strong tech sectors like Manchester or Edinburgh. Salaries may be lower in other regions."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the salary range for an entry-level Product Manager?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The salary range for an entry-level or Associate Product Manager can vary, but it typically starts lower than for experienced professionals. Factors like educational background, previous internship experience, and the hiring company's size and location will play a role."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://salarydata.co.uk/location/cardiff/",
+      "faq_schema": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the average salary across different professions in Cardiff?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The average salary in Cardiff varies significantly across different professions and industries. Our data provides detailed insights into typical earnings for various job roles within the city, allowing you to compare and understand the local job market."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the cost of living in Cardiff compare to typical salaries?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cardiff generally offers a more affordable cost of living compared to larger UK cities like London. Our data helps you understand how typical salaries in Cardiff align with local living expenses, including housing, transport, and daily necessities."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which job sectors offer the highest salaries in Cardiff?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Certain job sectors in Cardiff tend to offer higher salaries, often including finance, technology, legal, and senior management roles within established industries. Our page details which professions command the best remuneration in the city."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
