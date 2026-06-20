@@ -10,10 +10,11 @@ const description = 'Contact us with salary data questions, corrections or partn
     <h1>Contact</h1>
     <form action="https://api.staticforms.xyz/submit" method="POST">
       <input type="hidden" name="accessKey" value="sf_9e906eb6c00416b9d3354749" />
+      <input type="hidden" name="_site" value="salarydata.co.uk" />
       <input type="hidden" name="redirectTo" value="https://salarydata.co.uk/contact/?sent=1" />
       <label>Name<input type="text" name="name" required /></label>
       <label>Email<input type="email" name="email" required /></label>
-      <label>Subject<input type="text" name="subject" value="Contact form submission" /></label>
+      <label>Subject<input type="text" name="subject" value="Contact form submission (salarydata.co.uk)" /></label>
       <label>Message<textarea name="message" rows="6" required></textarea></label>
       <button type="submit" class="btn">Send</button>
     </form>

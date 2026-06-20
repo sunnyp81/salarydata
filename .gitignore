@@ -7,3 +7,16 @@ dist/
 .DS_Store
 *.log
 .github/workflows/
+
+# leak-scan: appended 2026-05-01
+.env.*
+.env.production
+*.pem
+*.key
+credentials.json
+credentials*.json
+secrets.*
+.vercel/
+.next/cache/
+wordpress-config.md
+master-builds.md
