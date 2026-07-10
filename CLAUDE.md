@@ -2,6 +2,10 @@
 
 > Per-repo brain, migrated from central claude-memory 2026-06-20. Canonical project memory now lives here.
 
+## Brain
+
+- **Jul 10 2026:** GA4 property 538515864 was returning zero rows. Root cause: the gtag snippet (G-8QQ1H756ZY) was already correct in `src/layouts/BaseLayout.astro` and already committed to git (commits `5a9564a`, `3c5c994`), but this repo deploys via manual `wrangler pages deploy`, not on git push, so the fix had never actually shipped to Cloudflare Pages. Ran `npm run build` then `npx wrangler pages deploy dist --project-name salarydata --commit-dirty=true`; confirmed live via curl on both `https://salarydata.pages.dev` and `https://salarydata.co.uk` that the page now serves `gtag/js?id=G-8QQ1H756ZY` and `gtag('config','G-8QQ1H756ZY')`. No source changes needed, no new commit (dist/ is gitignored). Sunny still needs to mark key events in the GA4 UI once real traffic starts flowing.
+
 ## Current state
 
 - **What:** salarydata.co.uk — UK programmatic salary site targeting "[job title] salary in [UK city]". Money via Reed/TotalJobs CPC + TopCV/CVLibrary CV-review affiliate. Differentiator: data-trust (ONS ASHE source + sample size + last-updated + method) and a signature percentile range bar.
