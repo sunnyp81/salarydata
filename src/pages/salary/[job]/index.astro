@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import FAQ from '../../../components/FAQ.astro';
@@ -52,11 +52,40 @@ const faqs = [
   },
 ];
 
+// Job-specific FAQ additions. Kept as an explicit per-slug list rather than a generic
+// template feature, so this only ever renders on the one page it's written for.
+if (job.slug === 'seo-manager') {
+  faqs.push(
+    {
+      question: 'How much does an SEO Executive earn in the UK?',
+      answer: `<p>SEO Executive is the usual entry point into this career, and pay lines up with the ONS entry-level figure for the occupation: around <strong>${formatGBP(job.entryLevelSalary)}</strong>. Executives who move up to SEO Manager typically reach the <strong>${formatGBP(job.nationalMedianSalary)}</strong> median within two to three years.</p>`,
+    },
+    {
+      question: 'Is SEO Executive the same job as SEO Manager?',
+      answer: `<p>Not quite. SEO Executive (also seen as SEO Assistant or Junior SEO Analyst) is a more junior title focused on execution — on-page fixes, reporting, content support — usually reporting into an SEO Manager. Both sit under the same ONS occupation code used on this page, which is why entry-level pay (${formatGBP(job.entryLevelSalary)}) and the SEO Manager median (${formatGBP(job.nationalMedianSalary)}) both appear here.</p>`,
+    },
+  );
+}
+
 const crumbs = [
   { name: 'Home', url: '/' },
   { name: 'Salaries', url: '/salary/' },
   { name: job.title, url },
 ];
+
+// Cross-link: a small set of already-related role pages (per their own relatedJobs data)
+// link into the SEO Manager hub. Explicit whitelist, not a generic relatedJobs render,
+// so this only touches these specific pages rather than every job hub site-wide.
+const SEO_CROSS_LINK_SOURCES = ['content-manager', 'marketing-manager', 'paid-media-manager'];
+const seoManagerEntry = SEO_CROSS_LINK_SOURCES.includes(job.slug)
+  ? await getEntry('jobs', 'seo-manager')
+  : undefined;
+
+// Progression / regional / pay-driver depth for the SEO Manager page specifically —
+// written for this page, gated by slug so it never renders on any other job hub.
+const isSeoManager = job.slug === 'seo-manager';
+const londonRow = isSeoManager ? cityRows.find((c) => c.slug === 'london') : undefined;
+const lowestPayingCity = isSeoManager ? cityRows[cityRows.length - 1] : undefined;
 
 const schema = [
   buildBreadcrumbSchema(crumbs),
@@ -125,6 +154,30 @@ const schema = [
       </tbody>
     </table>
 
+    {isSeoManager && londonRow && lowestPayingCity && (
+      <>
+        <h2>SEO Executive to SEO Manager to Head of SEO: pay by career stage</h2>
+        <p>
+          SEO careers in the UK tend to move through three broad stages. An <strong>SEO Executive</strong> (also
+          seen as SEO Assistant or Junior SEO Analyst) usually starts on entry-level pay of around {formatGBP(job.entryLevelSalary)},
+          working on on-page fixes, reporting and content support under an SEO Manager. Moving up into the
+          <strong> SEO Manager</strong> role itself, the UK median sits at {formatGBP(job.nationalMedianSalary)}, with day-to-day
+          ownership of strategy, technical audits and often a small team or set of client accounts. The next step,
+          into a <strong>Head of SEO</strong> or SEO Director title, pushes pay toward {formatGBP(job.seniorLevelSalary)} and
+          above, adding budget ownership and line management of the Executive-to-Manager pipeline underneath.
+        </p>
+
+        <h2>London vs the rest of the UK</h2>
+        <p>
+          London pays a clear premium for this role: the median SEO Manager salary in London is {formatGBP(londonRow.median)},
+          {' '}{londonRow.diff}% above the UK-wide figure. At the other end, {lowestPayingCity.name} — the lowest-paying city
+          on this site for the role — still sits at {formatGBP(lowestPayingCity.median)}, {Math.abs(lowestPayingCity.diff)}%
+          under the national median. For most SEO Managers outside London and the South East, cost of living rather than
+          the headline salary gap is usually what decides whether a move is worth it.
+        </p>
+      </>
+    )}
+
     <TakeHomeCalculator client:visible defaultSalary={job.nationalMedianSalary} jobTitle={job.title} />
 
     <CVBuilderCTA jobTitle={job.title} campaign={`${job.slug}-hub`} />
@@ -133,6 +186,30 @@ const schema = [
     <ul class="skills">
       {job.requiredSkills.map((s) => <li>{s}</li>)}
     </ul>
+
+    {isSeoManager && (
+      <>
+        <h2>What affects an SEO Manager's salary</h2>
+        <p>
+          A handful of factors move pay beyond the headline figures above. Larger in-house teams and enterprise
+          employers tend to cluster nearer the upper quartile ({formatGBP(job.nationalUpperQuartile)}), because they
+          can justify a dedicated technical SEO hire; smaller agencies and specialist consultancies more often sit
+          nearer the lower quartile ({formatGBP(job.nationalLowerQuartile)}) but can offer faster progression into
+          the Manager title. Hands-on depth in {job.requiredSkills[0]} and {job.requiredSkills[1]} — rather than just
+          campaign oversight — is usually what separates median pay from an upper-quartile offer. Demand for the
+          role is currently <strong>{job.growthOutlook}</strong>, meaning employer hiring has been keeping pace with,
+          or outstripping, the number of experienced candidates in most UK cities.
+        </p>
+      </>
+    )}
+
+    {seoManagerEntry && (
+      <p class="cross-link">
+        Related: {job.title}s and SEO often overlap on the same campaigns — see how{' '}
+        <a href={`/salary/${seoManagerEntry.data.slug}/`}>{seoManagerEntry.data.title} salaries</a> compare
+        ({formatGBP(seoManagerEntry.data.nationalMedianSalary)} median).
+      </p>
+    )}
 
     <FAQ items={faqs} />
   </div>
@@ -145,4 +222,5 @@ const schema = [
     background: #e0f2fe; color: #075985; padding: .4rem .85rem;
     border-radius: 999px; font-size: .9rem; font-weight: 500;
   }
+  .cross-link { color: var(--ink-2); font-size: .95rem; }
 </style>
