@@ -62,7 +62,7 @@ if (job.slug === 'seo-manager') {
     },
     {
       question: 'Is SEO Executive the same job as SEO Manager?',
-      answer: `<p>Not quite. SEO Executive (also seen as SEO Assistant or Junior SEO Analyst) is a more junior title focused on execution — on-page fixes, reporting, content support — usually reporting into an SEO Manager. Both sit under the same ONS occupation code used on this page, which is why entry-level pay (${formatGBP(job.entryLevelSalary)}) and the SEO Manager median (${formatGBP(job.nationalMedianSalary)}) both appear here.</p>`,
+      answer: `<p>Not quite. SEO Executive (also seen as SEO Assistant or Junior SEO Analyst) is a more junior title focused on execution, covering on-page fixes, reporting and content support, and usually reports into an SEO Manager. Both sit under the same ONS occupation code used on this page, which is why entry-level pay (${formatGBP(job.entryLevelSalary)}) and the SEO Manager median (${formatGBP(job.nationalMedianSalary)}) both appear here.</p>`,
     },
   );
 }
@@ -170,8 +170,8 @@ const schema = [
         <h2>London vs the rest of the UK</h2>
         <p>
           London pays a clear premium for this role: the median SEO Manager salary in London is {formatGBP(londonRow.median)},
-          {' '}{londonRow.diff}% above the UK-wide figure. At the other end, {lowestPayingCity.name} — the lowest-paying city
-          on this site for the role — still sits at {formatGBP(lowestPayingCity.median)}, {Math.abs(lowestPayingCity.diff)}%
+          {' '}{londonRow.diff}% above the UK-wide figure. At the other end, {lowestPayingCity.name}, the lowest-paying city
+          on this site for the role, still sits at {formatGBP(lowestPayingCity.median)}, {Math.abs(lowestPayingCity.diff)}%
           under the national median. For most SEO Managers outside London and the South East, cost of living rather than
           the headline salary gap is usually what decides whether a move is worth it.
         </p>
@@ -195,8 +195,8 @@ const schema = [
           employers tend to cluster nearer the upper quartile ({formatGBP(job.nationalUpperQuartile)}), because they
           can justify a dedicated technical SEO hire; smaller agencies and specialist consultancies more often sit
           nearer the lower quartile ({formatGBP(job.nationalLowerQuartile)}) but can offer faster progression into
-          the Manager title. Hands-on depth in {job.requiredSkills[0]} and {job.requiredSkills[1]} — rather than just
-          campaign oversight — is usually what separates median pay from an upper-quartile offer. Demand for the
+          the Manager title. Hands-on depth in {job.requiredSkills[0]} and {job.requiredSkills[1]}, rather than just
+          campaign oversight, is usually what separates median pay from an upper-quartile offer. Demand for the
           role is currently <strong>{job.growthOutlook}</strong>, meaning employer hiring has been keeping pace with,
           or outstripping, the number of experienced candidates in most UK cities.
         </p>
@@ -205,7 +205,7 @@ const schema = [
 
     {seoManagerEntry && (
       <p class="cross-link">
-        Related: {job.title}s and SEO often overlap on the same campaigns — see how{' '}
+        Related: {job.title}s and SEO often overlap on the same campaigns. See how{' '}
         <a href={`/salary/${seoManagerEntry.data.slug}/`}>{seoManagerEntry.data.title} salaries</a> compare
         ({formatGBP(seoManagerEntry.data.nationalMedianSalary)} median).
       </p>
