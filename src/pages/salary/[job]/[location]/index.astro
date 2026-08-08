@@ -84,8 +84,16 @@ const colDirection = colDiff >= 0 ? 'more' : 'less';
 
 // SEO
 const year = new Date().getFullYear();
-const title = `${job.title} Salary in ${location.name} ${year} | Average Pay & Take-Home`;
-const description = `${job.title} salary in ${location.name} averages ${formatGBP(adj.median)} (${formatGBP(adj.lowerQuartile)}–${formatGBP(adj.upperQuartile)} middle 50%). Take-home calculator, live jobs, regional comparison. Source: ONS ASHE.`;
+// Per-page SEO overrides, keyed `${jobSlug}/${locationSlug}` (CTR pass 2026-08-09)
+const seoKey = `${job.slug}/${location.slug}`;
+const titleOverrides: Record<string, string> = {
+  "software-engineer/london": "Software Engineer Salary London 2026: £66,560 Median",
+};
+const descOverrides: Record<string, string> = {
+  "software-engineer/london": "Software engineer salary in London: £66,560 median, middle 50% £48,640 to £92,160. Monthly take-home after tax and how London compares with the UK.",
+};
+const title = titleOverrides[seoKey] ?? `${job.title} Salary in ${location.name} ${year} | Average Pay & Take-Home`;
+const description = descOverrides[seoKey] ?? `${job.title} salary in ${location.name} averages ${formatGBP(adj.median)} (${formatGBP(adj.lowerQuartile)} to ${formatGBP(adj.upperQuartile)} middle 50%). Take-home calculator, live jobs, regional comparison. Source: ONS ASHE.`;
 const url = `/salary/${job.slug}/${location.slug}/`;
 const noindex = !isMoneyPageIndexed(job.slug, location.slug);
 
