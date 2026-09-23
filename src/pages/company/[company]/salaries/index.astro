@@ -80,6 +80,10 @@ const schema = [
         ))}
       </tbody>
     </table>
+    <p class="source-note">
+      These role bands are modelled estimates, not {company.name}-reported or ONS company-level
+      figures &mdash; ONS does not publish pay by employer. See our <a href="/methodology/">methodology</a>.
+    </p>
 
     <SalaryRangeChart
       client:load
@@ -115,6 +119,7 @@ const schema = [
 
 <style>
   .lead { font-size: 1.05rem; color: var(--c-ink); max-width: 70ch; }
+  .source-note { font-size: .85rem; color: var(--c-muted); max-width: 70ch; }
   .cities { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .5rem; }
   .cities li a {
     display: block; padding: .7rem 1rem; background: #f8fafc;
