@@ -94,7 +94,7 @@ const costNarrative = cityCostNarrative(location, cmpData);
     <Breadcrumbs items={crumbs} />
     <h1>Salaries in {location.name} ({year})</h1>
     <p class="lead">
-      ${location.name} pays a {location.locationMultiplier === 1 ? 'national-average' : `${(location.locationMultiplier).toFixed(2)}× UK-median`} salary across the roles tracked on this site, with a cost-of-living index of {location.costOfLivingIndex} and headline unemployment of {location.unemploymentRate}%.
+      {location.name} pays a {location.locationMultiplier === 1 ? 'national-average' : `${(location.locationMultiplier).toFixed(2)}× UK-median`} salary across the roles tracked on this site, with a cost-of-living index of {location.costOfLivingIndex} and headline unemployment of {location.unemploymentRate}%.
     </p>
 
     <div class="stats">

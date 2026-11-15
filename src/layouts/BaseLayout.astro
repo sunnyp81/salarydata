@@ -138,7 +138,7 @@ const schemaArray = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         </div>
         <p class="footer-fineprint">
           <span class="brand-mark">SalaryData</span> — UK salary data drawn from the
-          <a href="https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/2023" rel="noopener" target="_blank">ONS Annual Survey of Hours and Earnings</a>.
+          <a href="https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/2023" rel="noopener noreferrer" target="_blank">ONS Annual Survey of Hours and Earnings</a>.
           Take-home pay calculations for tax year 2024/25 (England, Wales and Northern Ireland).
           Figures are guidance, not financial advice.
         </p>
@@ -426,9 +426,10 @@ const schemaArray = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       /* Small screens — tighten nav */
       @media (max-width: 720px) {
         .logo-tld { display: none; }
-        .sd-desktop-nav { display: none; }
+        .site-header .sd-desktop-nav { display: none; }
         .sd-hamburger { display: inline-flex; }
         .header-inner { padding: .75rem 1.25rem; }
+        table.salary-table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
       }
     </style>
   </body>

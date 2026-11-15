@@ -43,7 +43,7 @@ export default function JobListingsWidget({ listings, jobTitle, location, estima
         <p style={{ margin: '.4rem 0 1rem', color: 'var(--ink-2)', fontSize: '.95rem' }}>
           Live listings refresh daily. View the full set on Reed.
         </p>
-        <a href={reedUrl} className="btn" rel="sponsored nofollow" target="_blank">
+        <a href={reedUrl} className="btn" rel="sponsored nofollow noopener noreferrer" target="_blank">
           See all {jobTitle} jobs in {location} →
         </a>
       </div>
@@ -67,7 +67,8 @@ export default function JobListingsWidget({ listings, jobTitle, location, estima
           >
             <a
               href={job.jobUrl}
-              rel="sponsored nofollow"
+              rel="sponsored nofollow noopener noreferrer"
+              target="_blank"
               target="_blank"
               style={{
                 fontFamily: 'var(--font-display)', fontWeight: 600,
@@ -83,7 +84,7 @@ export default function JobListingsWidget({ listings, jobTitle, location, estima
           </li>
         ))}
       </ul>
-      <a href={reedUrl} className="btn" rel="sponsored nofollow" target="_blank">
+      <a href={reedUrl} className="btn" rel="sponsored nofollow noopener noreferrer" target="_blank">
         See all {count.toLocaleString()}+ {jobTitle} jobs in {location} →
       </a>
     </div>
