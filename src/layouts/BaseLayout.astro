@@ -426,9 +426,10 @@ const schemaArray = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       /* Small screens — tighten nav */
       @media (max-width: 720px) {
         .logo-tld { display: none; }
-        .sd-desktop-nav { display: none; }
+        .site-header .sd-desktop-nav { display: none; }
         .sd-hamburger { display: inline-flex; }
         .header-inner { padding: .75rem 1.25rem; }
+        table.salary-table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
       }
     </style>
   </body>
